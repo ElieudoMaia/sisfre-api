@@ -1,0 +1,20 @@
+{
+  "name": "sisfre",
+  "version": "1.0.0",
+  "description": "Sistema de controle de frequência docente",
+  "main": "src/index.ts",
+  "author": "Elieudo Maia <elieudo.maia@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "start": "tsx src/index.ts",
+    "build": "swc src/index.ts --out-dir dist --source-maps"
+  },
+  "devDependencies": {
+    "@swc/cli": "^0.1.62",
+    "@swc/core": "^1.3.80",
+    "@types/node": "^20.5.6",
+    "tsx": "^3.12.7",
+    "typescript": "^5.2.2"
+  }
+}
