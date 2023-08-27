@@ -9,7 +9,7 @@
   "scripts": {
     "start": "tsx src/index.ts",
     "build": "swc src/* --out-dir dist --source-maps",
-    "test": "vitest",
+    "test": "vitest --config vitest.config.ts",
     "test:coverage": "vitest run --coverage"
   },
   "devDependencies": {
