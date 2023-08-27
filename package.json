@@ -10,7 +10,8 @@
     "start": "tsx src/index.ts",
     "build": "swc src/* --out-dir dist --source-maps",
     "test": "vitest --config vitest.config.ts",
-    "test:coverage": "vitest run --coverage"
+    "test:coverage": "vitest run --coverage",
+    "postinstall": "husky install"
   },
   "devDependencies": {
     "@swc/cli": "^0.1.62",
@@ -19,6 +20,8 @@
     "@vitest/coverage-v8": "^0.34.3",
     "eslint-config-prettier": "^9.0.0",
     "git-commit-msg-linter": "^5.0.4",
+    "husky": "^8.0.3",
+    "lint-staged": "^14.0.1",
     "prettier": "^3.0.2",
     "tsx": "^3.12.7",
     "typescript": "^5.2.2",
