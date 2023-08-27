@@ -8,7 +8,7 @@
   "private": true,
   "scripts": {
     "start": "tsx src/index.ts",
-    "build": "swc src/index.ts --out-dir dist --source-maps",
+    "build": "swc src/* --out-dir dist --source-maps",
     "test": "vitest",
     "test:coverage": "vitest run --coverage"
   },

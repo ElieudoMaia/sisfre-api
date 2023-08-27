@@ -5,11 +5,15 @@
       "tsx": false
     },
     "externalHelpers": true,
-    "target": "es2020",
+    "target": "es2022",
     "loose": false,
     "minify": {
       "compress": false,
       "mangle": false
+    },
+    "baseUrl": "./src",
+    "paths": {
+      "@/*": ["./*"]
     }
   },
   "module": {
