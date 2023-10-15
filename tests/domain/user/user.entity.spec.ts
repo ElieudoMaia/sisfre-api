@@ -1,6 +1,6 @@
 import { User } from '@/domain/user/entity/user';
 import { describe, expect, it } from 'vitest';
-import { generateAlphanumericRandomString } from '../../utils/generate-random-string';
+import { fake } from '../../utils/fake-data-generator';
 
 describe('User Entity', () => {
   it('should throw an error when id is empty', () => {
@@ -14,12 +14,7 @@ describe('User Entity', () => {
       new User('id', '', 'email@mail.com', 'password');
     }).toThrowError('name is required');
     expect(() => {
-      new User(
-        'id',
-        generateAlphanumericRandomString(256),
-        'email@mail.com',
-        'password'
-      );
+      new User('id', fake.random(256), 'email@mail.com', 'password');
     }).toThrowError('name must be less than 255 characters');
   });
 
@@ -28,7 +23,7 @@ describe('User Entity', () => {
       new User('id', 'name', '', 'password');
     }).toThrowError('email is required');
     expect(() => {
-      new User('id', 'name', generateAlphanumericRandomString(256), 'password');
+      new User('id', 'name', fake.random(256), 'password');
     }).toThrowError('email must be less than 255 characters');
     expect(() => {
       new User('id', 'name', 'invalid_useremail', 'password');
@@ -40,12 +35,7 @@ describe('User Entity', () => {
       new User('id', 'name', 'mail@mail.com', '');
     }).toThrowError('password is required');
     expect(() => {
-      new User(
-        'id',
-        'name',
-        'mail@mail.com',
-        generateAlphanumericRandomString(65)
-      );
+      new User('id', 'name', 'mail@mail.com', fake.random(65));
     }).toThrowError('password must be less than 64 characters');
   });
 

@@ -6,10 +6,10 @@ import { AccessTokenGenerator } from '@/domain/user/gateway/access-token-generat
 import { HashComparer } from '@/domain/user/gateway/hash-comparer';
 import { FindUserByEmailRepository } from '@/domain/user/repository/find-user-by-email';
 import { describe, expect, it, vi } from 'vitest';
-import { generateAlphanumericRandomString } from '../../../utils/generate-random-string';
+import { fake } from '../../../utils/fake-data-generator';
 
 const fakeUser = {
-  id: generateAlphanumericRandomString(16),
+  id: fake.uuid(),
   name: 'any_name',
   email: 'any_email@mail.com',
   password: 'any_hashed_password',
@@ -17,7 +17,7 @@ const fakeUser = {
   updatedAt: new Date()
 };
 
-const fakeToken = generateAlphanumericRandomString(32);
+const fakeToken = fake.jwtToken();
 
 const makeFindUserByEmailRepository = () => {
   return {
@@ -64,8 +64,8 @@ const makeSut = (): SutType => {
 };
 
 const makeFakeInput = (): LoginUseCaseInputDTO => ({
-  email: 'any_email@mail.com',
-  password: 'password'
+  email: fakeUser.email,
+  password: fake.password()
 });
 
 describe('Login', () => {
