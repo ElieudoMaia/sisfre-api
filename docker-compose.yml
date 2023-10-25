@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+  sisfre-api:
+    image: node:18.18.2
+    user: 'node'
+    container_name: sisfre-api
+    depends_on:
+      - postgres_container
+    ports:
+      - '3132:3132'
+    environment:
+      - DATABASE_URL=postgres://postgres:postgres@postgres_container:5432/sisfre?schema=public
+      - NODE_ENV=development
+    volumes:
+      - ./:/opt/workspace/app
+    working_dir: /opt/workspace/app
+    networks:
+      - postgres-network
+    command: sh -c 'yarn prisma migrate dev && yarn start'
+
+  postgres_container:
+    image: postgres:15
+    container_name: postgres
+    ports:
+      - '5432:5432'
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=sisfre
+    volumes:
+      - ./.docker/postgres:/var/lib/postgresql/data
+    networks:
+      - postgres-network
+
+networks:
+  postgres-network:
