@@ -1,9 +1,9 @@
-type Payload = {
+export type TokenGeneratorPayload = {
   id: string;
   email: string;
   name: string;
 };
 
 export interface AccessTokenGenerator {
-  generate: (payload: Payload) => Promise<string>;
+  generate: (payload: TokenGeneratorPayload) => Promise<string>;
 }

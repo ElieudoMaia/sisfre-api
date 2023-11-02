@@ -1,10 +1,18 @@
 [x] Add faker to project
 [x] Evaluate need to use try catch on usecase
 [x] Learn about prisma
-[ ] Put prisma on project
-[ ] Create setup with docker
-[ ] Create repositories needed to login usecase
+[x] tests for JWTAdapter
+[ ] see how to validate input
+[ ] handle correctly erro messages on controller
+[ ] add log lib
+[ ] pattern the messages returned by the controller
+[ ] see the possibility of create a adpter or decorator to controllers factories
+[ ] setup prisma connection on application startup
+[x] Put prisma on project
+[x] Create setup with docker
+[x] Create repositories needed to login usecase
 [ ] Learn about fastify
+[ ] get jwt token secret from env
 [ ] Put fastify on project
 [ ] Create adapter to fastify
 [ ] Create route to login usecase

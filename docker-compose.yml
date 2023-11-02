@@ -8,16 +8,17 @@ services:
     depends_on:
       - postgres_container
     ports:
-      - '3132:3132'
+      - '3030:3030'
     environment:
       - DATABASE_URL=postgres://postgres:postgres@postgres_container:5432/sisfre?schema=public
       - NODE_ENV=development
+      - PORT=3030
     volumes:
       - ./:/opt/workspace/app
     working_dir: /opt/workspace/app
     networks:
       - postgres-network
-    command: sh -c 'yarn prisma migrate dev && yarn start'
+    command: yarn start
 
   postgres_container:
     image: postgres:15
