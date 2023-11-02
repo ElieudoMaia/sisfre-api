@@ -9,7 +9,7 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 export class UserRepository implements FindUserByEmailRepository {
   async findUserByEmail(input: Input): Promise<Output> {
-    const user = await prisma.user.findFirst({
+    const user = await prisma.user.findUnique({
       where: {
         email: input.email
       }
