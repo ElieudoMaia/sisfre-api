@@ -10,6 +10,7 @@
     "start": "tsx watch src/main/server.ts",
     "build": "swc src/* --out-dir dist --source-maps",
     "test": "vitest --config vitest.config.ts",
+    "test:staged": "vitest --config vitest.config.ts --no-watch",
     "test:coverage": "vitest run --coverage",
     "postinstall": "husky install"
   },
