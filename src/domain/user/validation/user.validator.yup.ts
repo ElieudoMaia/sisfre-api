@@ -7,15 +7,21 @@ export class UserYupValidator implements ValidatorInterface<User> {
   validate(user: User): void {
     try {
       const schema = yup.object().shape({
-        id: yup
-          .string()
-          .typeError('id must be a string')
-          .required('id is required'),
+        id: yup.string().typeError('id must be a string').notRequired(),
         name: yup
           .string()
           .typeError('name must be a string')
           .required('name is required')
           .max(255, 'name must be less than 255 characters'),
+        nameAbreviation: yup
+          .string()
+          .typeError('nameAbreviation must be a string')
+          .required('nameAbreviation is required')
+          .matches(
+            /^[A-Z]{3,10}$/,
+            'nameAbreviation must be in the format [A-Z] and have between 3 and 10 characters'
+          )
+          .max(10, 'nameAbreviation must be less than 10 characters'),
         email: yup
           .string()
           .typeError('email must be a string')

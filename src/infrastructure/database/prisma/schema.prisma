@@ -11,11 +11,25 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(uuid()) @db.Uuid
-  name      String   @db.VarChar(255)
-  email     String   @unique @db.VarChar(255)
-  password  String   @db.VarChar(255)
-  createdAt DateTime @default(now())
+  id                String   @id @default(uuid()) @db.Uuid
+  name              String   @db.VarChar(255)
+  name_abbreviation String   @unique @db.VarChar(10)
+  email             String   @unique @db.VarChar(255)
+  password          String   @db.VarChar(255)
+  role_id           String   @db.Uuid
+  role              Role     @relation(fields: [role_id], references: [id])
+  created_at        DateTime @default(now())
+  updated_at        DateTime @updatedAt
 
   @@map(name: "users")
+}
+
+model Role {
+  id         String   @id @default(uuid()) @db.Uuid
+  name       String   @db.VarChar(50)
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  users      User[]
+
+  @@map(name: "roles")
 }

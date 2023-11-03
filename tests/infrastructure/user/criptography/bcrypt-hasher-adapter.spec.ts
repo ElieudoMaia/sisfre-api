@@ -5,7 +5,8 @@ import { describe, expect, test, vi } from 'vitest';
 vi.mock('bcrypt');
 
 const makeSut = (): BcryptHasherAdapter => {
-  return new BcryptHasherAdapter();
+  const salt = 12;
+  return new BcryptHasherAdapter(salt);
 };
 
 describe('BcryptAdapter', () => {
