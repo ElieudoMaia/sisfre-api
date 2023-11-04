@@ -1,6 +1,7 @@
 import { CreateUserUseCase } from '@/application/usecases/user/create/create-user.usecase';
 import { ApplicationError } from '@/domain/@shared/error/application-error.error';
 import { FastifyReply, FastifyRequest } from 'fastify';
+import { handleControllerResponse } from '../@shared/handle-controller-response';
 
 type RequetBodyType = {
   name: string;
@@ -36,16 +37,10 @@ export class CreateUserController {
 
       return reply.status(201).send({ createdUser });
     } catch (error: unknown) {
-      const isApplicationError = error instanceof ApplicationError;
-      const statusCode = isApplicationError ? 400 : 500;
-
-      const err = error as Error;
-
-      err.message = isApplicationError
-        ? error.message
-        : 'Internal Server Error';
-
-      return reply.status(statusCode).send(error);
+      const { statusCode, response } = handleControllerResponse(
+        error as ApplicationError
+      );
+      return reply.status(statusCode).send(response);
     }
   }
 }
