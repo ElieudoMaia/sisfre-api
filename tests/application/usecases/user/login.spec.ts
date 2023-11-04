@@ -1,7 +1,6 @@
 import { LoginUseCase } from '@/application/usecases/user/login/login.usecase';
 import { LoginUseCaseInputDTO } from '@/application/usecases/user/login/login.usecase.dto';
-import { IncorrectPasswordError } from '@/domain/user/errors/incorrect-password.error';
-import { UserNotFoundError } from '@/domain/user/errors/user-not-found.error';
+import { NotAllowedError } from '@/domain/@shared/error/not-allowed.error';
 import { AccessTokenGenerator } from '@/domain/user/gateway/access-token-generator';
 import { HashComparer } from '@/domain/user/gateway/hash-comparer';
 import { FindUserByEmailRepository } from '@/domain/user/repository/find-user-by-email';
@@ -97,7 +96,7 @@ describe('Login', () => {
     ).mockResolvedValueOnce(null);
     const promise = sut.execute(makeFakeInput());
     await expect(promise).rejects.toThrow(
-      new UserNotFoundError('user not found')
+      new NotAllowedError('User not found')
     );
   });
 
@@ -124,7 +123,7 @@ describe('Login', () => {
     const { sut, hashComparer } = makeSut();
     vi.spyOn(hashComparer, 'compare').mockResolvedValueOnce(false);
     const promise = sut.execute(makeFakeInput());
-    await expect(promise).rejects.toThrow(IncorrectPasswordError);
+    await expect(promise).rejects.toThrow(NotAllowedError);
   });
 
   it('should call accessTokenGenerator with correct params', async () => {
