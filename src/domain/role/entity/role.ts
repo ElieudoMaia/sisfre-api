@@ -1,7 +1,7 @@
 import { Entity } from '@/domain/@shared/entity/entity.abstract';
 import { RoleValidatorFactory } from '../factory/role.validator.factory';
 
-export type RoleEnttyProps = {
+export type RoleEntityProps = {
   id?: string;
   name: string;
   createdAt?: Date;
@@ -12,7 +12,7 @@ export class Role extends Entity {
   private _name: string = '';
   private validator = RoleValidatorFactory.create();
 
-  constructor(props: RoleEnttyProps) {
+  constructor(props: RoleEntityProps) {
     super(props.id, props.createdAt, props.updatedAt);
     this._name = props.name;
 
