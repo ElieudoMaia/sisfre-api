@@ -1,5 +1,4 @@
-import { InvalidResourceErro } from '@/domain/@shared/error/invalid-resource.error';
-import { RoleNotFoundError } from '@/domain/role/errors/role-not-found.error';
+import { InvalidResourceError } from '@/domain/@shared/error/invalid-resource.error';
 import { FindRoleByIdRepository } from '@/domain/role/repository/find-role-by-id';
 import { User } from '@/domain/user/entity/user';
 import { Hasher } from '@/domain/user/gateway/hasher';
@@ -26,14 +25,14 @@ export class CreateUserUseCase {
       id: input.roleId
     });
     if (!role) {
-      throw new RoleNotFoundError(`Role with id ${input.roleId} not found`);
+      throw new InvalidResourceError(`Role with id ${input.roleId} not found`);
     }
 
     const userByEmail = await this.findUserByEmailRepository.findUserByEmail({
       email: input.email
     });
     if (userByEmail) {
-      throw new InvalidResourceErro(
+      throw new InvalidResourceError(
         `User with email ${userByEmail.email} already exists`
       );
     }
@@ -43,13 +42,13 @@ export class CreateUserUseCase {
         abbreviationName: input.nameAbreviation
       });
     if (userByAbbreviationName) {
-      throw new InvalidResourceErro(
+      throw new InvalidResourceError(
         'User name abbreviation already registered'
       );
     }
 
     if (input.password.trim() !== input.passwordConfirmation.trim()) {
-      throw new InvalidResourceErro(
+      throw new InvalidResourceError(
         'Password and password confirmation differ'
       );
     }
