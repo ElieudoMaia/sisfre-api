@@ -5,7 +5,7 @@ import { fake } from '../../utils/fake-data-generator';
 const makeFakeUserProps = (): UserEntityProps => ({
   id: fake.uuid(),
   name: fake.name(),
-  nameAbreviation: 'ABV',
+  nameAbbreviation: 'ABV',
   email: fake.email(),
   password: fake.password(),
   createdAt: new Date(),
@@ -38,21 +38,21 @@ describe('User Entity', () => {
     }).toThrowError('name must be less than 255 characters');
   });
 
-  it('should validate nameAbreviation correctly', () => {
+  it('should validate nameAbbreviation correctly', () => {
     const fakeUserProps = makeFakeUserProps();
     expect(() => {
-      fakeUserProps.nameAbreviation = '';
+      fakeUserProps.nameAbbreviation = '';
       new User(fakeUserProps);
-    }).toThrowError('nameAbreviation is required');
+    }).toThrowError('nameAbbreviation is required');
     expect(() => {
-      fakeUserProps.nameAbreviation = fake.random(11);
+      fakeUserProps.nameAbbreviation = fake.random(11);
       new User(fakeUserProps);
-    }).toThrowError('nameAbreviation must be less than 10 characters');
+    }).toThrowError('nameAbbreviation must be less than 10 characters');
     expect(() => {
-      fakeUserProps.nameAbreviation = 'invalid';
+      fakeUserProps.nameAbbreviation = 'invalid';
       new User(fakeUserProps);
     }).toThrowError(
-      'nameAbreviation must be in the format [A-Z] and have between 3 and 10 characters'
+      'nameAbbreviation must be in the format [A-Z] and have between 3 and 10 characters'
     );
   });
 

@@ -2,6 +2,7 @@
 import { ApplicationError } from '@/domain/@shared/error/application-error.error';
 import { NotAllowedError } from '@/domain/@shared/error/not-allowed.error';
 import { NotFoundError } from '@/domain/@shared/error/not-found.error';
+import { ValidationError } from 'yup';
 
 export const handleControllerResponse = (
   error: Error
@@ -13,6 +14,10 @@ export const handleControllerResponse = (
   if (error instanceof NotAllowedError) statusCode = 401;
   if (error instanceof NotFoundError) statusCode = 404;
   if (error instanceof ApplicationError) statusCode = 400;
+  if (error instanceof ValidationError) {
+    statusCode = 400;
+    error.message = error.errors.join(', ');
+  }
 
   const err = error as Error;
   const isServerError = statusCode >= 500;

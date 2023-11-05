@@ -5,7 +5,7 @@ import { UserValidatorFactory } from '../factory/user.validator.factory';
 export type UserEntityProps = {
   id?: string;
   name: string;
-  nameAbreviation: string;
+  nameAbbreviation: string;
   email: string;
   password: string;
   createdAt?: Date;
@@ -14,7 +14,7 @@ export type UserEntityProps = {
 
 export class User extends Entity {
   private _name: string = '';
-  private _nameAbreviation: string = '';
+  private _nameAbbreviation: string = '';
   private _email: string = '';
   private _password: string = '';
   private _role?: Role;
@@ -23,7 +23,7 @@ export class User extends Entity {
   constructor(props: UserEntityProps) {
     super(props.id, props.createdAt, props.updatedAt);
     this._name = props.name;
-    this._nameAbreviation = props.nameAbreviation;
+    this._nameAbbreviation = props.nameAbbreviation;
     this._email = props.email;
     this._password = props.password;
 
@@ -39,8 +39,8 @@ export class User extends Entity {
     return this._name;
   }
 
-  get nameAbreviation(): string {
-    return this._nameAbreviation;
+  get nameAbbreviation(): string {
+    return this._nameAbbreviation;
   }
 
   get email(): string {

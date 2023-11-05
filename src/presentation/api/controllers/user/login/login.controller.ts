@@ -1,7 +1,8 @@
 import { LoginUseCase } from '@/application/usecases/user/login/login.usecase';
 import { ApplicationError } from '@/domain/@shared/error/application-error.error';
 import { FastifyReply, FastifyRequest } from 'fastify';
-import { handleControllerResponse } from '../@shared/handle-controller-response';
+import { handleControllerResponse } from '../../@shared/handle-controller-response';
+import { LoginRequestValidator } from './login-request-validator';
 
 type RequetBodyType = {
   email: string;
@@ -9,18 +10,21 @@ type RequetBodyType = {
 };
 
 export class LoginController {
-  constructor(private readonly loginuseCase: LoginUseCase) {}
+  constructor(
+    private readonly loginRequestValidator: LoginRequestValidator,
+    private readonly loginuseCase: LoginUseCase
+  ) {}
 
   async handle(
     request: FastifyRequest<{ Body: RequetBodyType }>,
     reply: FastifyReply
   ) {
     try {
-      if (!request.body) {
-        return reply.status(400).send({ message: 'No data provided' });
-      }
+      const validatedData = await this.loginRequestValidator.validate(
+        request.body
+      );
 
-      const { email, password } = request.body;
+      const { email, password } = validatedData;
       const { accessToken } = await this.loginuseCase.execute({
         email,
         password

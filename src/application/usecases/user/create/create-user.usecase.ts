@@ -39,7 +39,7 @@ export class CreateUserUseCase {
 
     const userByAbbreviationName =
       await this.findUserByNameAbbreviationRepository.findByAbbreviationName({
-        abbreviationName: input.nameAbreviation
+        abbreviationName: input.nameAbbreviation
       });
     if (userByAbbreviationName) {
       throw new InvalidResourceError(
@@ -57,7 +57,7 @@ export class CreateUserUseCase {
 
     const user = new User({
       name: input.name,
-      nameAbreviation: input.nameAbreviation,
+      nameAbbreviation: input.nameAbbreviation,
       email: input.email,
       password: hashedPassword
     });
@@ -70,7 +70,7 @@ export class CreateUserUseCase {
       id: user.id,
       email: user.email,
       name: user.name,
-      nameAbreviation: user.nameAbreviation,
+      nameAbbreviation: user.nameAbbreviation,
       roleId: input.roleId
     };
   }

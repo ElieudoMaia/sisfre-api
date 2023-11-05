@@ -1,6 +1,6 @@
 export interface CreateUserUseCaseInputDTO {
   name: string;
-  nameAbreviation: string;
+  nameAbbreviation: string;
   email: string;
   password: string;
   passwordConfirmation: string;
@@ -10,7 +10,7 @@ export interface CreateUserUseCaseInputDTO {
 export interface CreateUserUseCaseOutputDTO {
   id: string;
   name: string;
-  nameAbreviation: string;
+  nameAbbreviation: string;
   email: string;
   roleId: string;
 }

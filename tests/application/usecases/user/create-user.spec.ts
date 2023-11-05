@@ -13,7 +13,7 @@ import { fake } from '../../../utils/fake-data-generator';
 const makeFakeInput = (): CreateUserUseCaseInputDTO => ({
   name: fake.name(),
   email: fake.email(),
-  nameAbreviation: 'ABRV',
+  nameAbbreviation: 'ABRV',
   password: '123456',
   passwordConfirmation: '123456',
   roleId: fake.uuid()
@@ -144,7 +144,7 @@ describe('CreateUserUseCase', () => {
     expect(
       findUserByNameAbbreviationRepository.findByAbbreviationName
     ).toHaveBeenCalledWith({
-      abbreviationName: input.nameAbreviation
+      abbreviationName: input.nameAbbreviation
     });
     expect(
       findUserByNameAbbreviationRepository.findByAbbreviationName
@@ -204,7 +204,7 @@ describe('CreateUserUseCase', () => {
     expect(createUserRepository.create).toHaveBeenCalledWith(
       expect.objectContaining({
         name: input.name,
-        nameAbreviation: input.nameAbreviation,
+        nameAbbreviation: input.nameAbbreviation,
         email: input.email,
         password: 'hashed_password',
         id: expect.any(String),
@@ -234,7 +234,7 @@ describe('CreateUserUseCase', () => {
     expect(user).toEqual({
       id: expect.any(String),
       name: input.name,
-      nameAbreviation: input.nameAbreviation,
+      nameAbbreviation: input.nameAbbreviation,
       email: input.email,
       roleId: input.roleId
     });

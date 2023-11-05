@@ -13,15 +13,15 @@ export class UserYupValidator implements ValidatorInterface<User> {
           .typeError('name must be a string')
           .required('name is required')
           .max(255, 'name must be less than 255 characters'),
-        nameAbreviation: yup
+        nameAbbreviation: yup
           .string()
-          .typeError('nameAbreviation must be a string')
-          .required('nameAbreviation is required')
+          .typeError('nameAbbreviation must be a string')
+          .required('nameAbbreviation is required')
           .matches(
             /^[A-Z]{3,10}$/,
-            'nameAbreviation must be in the format [A-Z] and have between 3 and 10 characters'
+            'nameAbbreviation must be in the format [A-Z] and have between 3 and 10 characters'
           )
-          .max(10, 'nameAbreviation must be less than 10 characters'),
+          .max(10, 'nameAbbreviation must be less than 10 characters'),
         email: yup
           .string()
           .typeError('email must be a string')

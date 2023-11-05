@@ -25,7 +25,7 @@ export class UserRepository
       data: {
         id: input.id,
         name: input.name,
-        name_abbreviation: input.nameAbreviation,
+        name_abbreviation: input.nameAbbreviation,
         email: input.email,
         password: input.password,
         role_id: input.role.id,
@@ -47,7 +47,7 @@ export class UserRepository
     return new User({
       id: user.id,
       name: user.name,
-      nameAbreviation: user.name_abbreviation,
+      nameAbbreviation: user.name_abbreviation,
       email: user.email,
       password: user.password,
       createdAt: user.created_at,
@@ -69,7 +69,7 @@ export class UserRepository
     return new User({
       id: user.id,
       name: user.name,
-      nameAbreviation: user.name_abbreviation,
+      nameAbbreviation: user.name_abbreviation,
       email: user.email,
       password: user.password,
       createdAt: user.created_at,
