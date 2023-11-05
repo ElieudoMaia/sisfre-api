@@ -1,3 +1,4 @@
+import { Role } from '@/domain/role/entity/role';
 import { User, UserEntityProps } from '@/domain/user/entity/user';
 import { describe, expect, it } from 'vitest';
 import { fake } from '../../utils/fake-data-generator';
@@ -11,6 +12,13 @@ const makeFakeUserProps = (): UserEntityProps => ({
   createdAt: new Date(),
   updatedAt: new Date()
 });
+
+const makeFakeRole = (): Role => {
+  return new Role({
+    id: fake.uuid(),
+    name: fake.name()
+  });
+};
 
 describe('User Entity', () => {
   it('should create a new id, createdAt and updatedAt when they are not provided', () => {
@@ -82,6 +90,22 @@ describe('User Entity', () => {
       fakeUserProps.password = fake.random(65);
       new User(fakeUserProps);
     }).toThrowError('password must be less than 64 characters');
+  });
+
+  it('should change role correctly', () => {
+    const fakeUserProps = makeFakeUserProps();
+    const user = new User(fakeUserProps);
+    expect(user.role).toBeUndefined();
+
+    const role1 = makeFakeRole();
+    user.changeRole(role1);
+    expect(user.role).toBeDefined();
+    expect(user.role).toBe(role1);
+
+    const role2 = makeFakeRole();
+    user.changeRole(role2);
+    expect(user.role).toBeDefined();
+    expect(user.role).toBe(role2);
   });
 
   it('should create a user correctly', () => {
