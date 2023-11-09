@@ -4,11 +4,31 @@ import {
   FindRoleByIdRepositoryInput,
   FindRoleByIdRepositoryOutput
 } from '@/domain/role/repository/find-role-by-id';
+import {
+  ListRolesRepository,
+  ListRolesRepositoryOutput
+} from '@/domain/role/repository/list-roles';
 import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-export class RoleRepository implements FindRoleByIdRepository {
+export class RoleRepository
+  implements FindRoleByIdRepository, ListRolesRepository
+{
+  async listRoles(): Promise<ListRolesRepositoryOutput> {
+    const roles = await prisma.role.findMany({
+      select: {
+        id: true,
+        name: true
+      }
+    });
+
+    return roles.map((role) => ({
+      id: role.id,
+      name: role.name
+    }));
+  }
+
   async findById(
     input: FindRoleByIdRepositoryInput
   ): Promise<FindRoleByIdRepositoryOutput> {
