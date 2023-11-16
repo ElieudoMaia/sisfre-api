@@ -21,7 +21,7 @@ const makeFakeRole = (): Role => {
 };
 
 describe('User Entity', () => {
-  it('should create a new id, createdAt and updatedAt when they are not provided', () => {
+  it('should create a new id, createdAt and updatedAt, isActive and isCoordinator when they are not provided', () => {
     const fakeUserProps = makeFakeUserProps();
     fakeUserProps.id = undefined;
     const user = new User(fakeUserProps);
@@ -32,6 +32,10 @@ describe('User Entity', () => {
     expect(user.createdAt).toBeInstanceOf(Date);
     expect(user.updatedAt).toBeDefined();
     expect(user.updatedAt).toBeInstanceOf(Date);
+    expect(user.isActive).toBeDefined();
+    expect(user.isActive).toBe(true);
+    expect(user.isCoordinator).toBeDefined();
+    expect(user.isCoordinator).toBe(false);
   });
 
   it('should validate name correctly', () => {
@@ -116,5 +120,22 @@ describe('User Entity', () => {
     expect(user.name).toBe(fakeUserProps.name);
     expect(user.email).toBe(fakeUserProps.email);
     expect(user.password).toBe(fakeUserProps.password);
+    expect(user.createdAt).toBe(fakeUserProps.createdAt);
+    expect(user.updatedAt).toBe(fakeUserProps.updatedAt);
+    expect(user.isActive).toBe(true);
+    expect(user.isCoordinator).toBe(false);
+
+    fakeUserProps.isActive = false;
+    fakeUserProps.isCoordinator = true;
+    const user2 = new User(fakeUserProps);
+    expect(user2).toBeInstanceOf(User);
+    expect(user2.id).toBe(fakeUserProps.id);
+    expect(user2.name).toBe(fakeUserProps.name);
+    expect(user2.email).toBe(fakeUserProps.email);
+    expect(user2.password).toBe(fakeUserProps.password);
+    expect(user2.createdAt).toBe(fakeUserProps.createdAt);
+    expect(user2.updatedAt).toBe(fakeUserProps.updatedAt);
+    expect(user2.isActive).toBe(false);
+    expect(user2.isCoordinator).toBe(true);
   });
 });

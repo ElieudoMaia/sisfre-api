@@ -8,6 +8,8 @@ export type UserEntityProps = {
   nameAbbreviation: string;
   email: string;
   password: string;
+  isActive?: boolean;
+  isCoordinator?: boolean;
   createdAt?: Date;
   updatedAt?: Date;
 };
@@ -18,6 +20,8 @@ export class User extends Entity {
   private _email: string = '';
   private _password: string = '';
   private _role?: Role;
+  private _isActive: boolean = true;
+  private _isCoordinator: boolean = false;
   private validator = UserValidatorFactory.create();
 
   constructor(props: UserEntityProps) {
@@ -26,6 +30,8 @@ export class User extends Entity {
     this._nameAbbreviation = props.nameAbbreviation;
     this._email = props.email;
     this._password = props.password;
+    this._isActive = props.isActive ?? true;
+    this._isCoordinator = props.isCoordinator ?? false;
 
     this.validate();
     this.checkForErrors();
@@ -49,6 +55,14 @@ export class User extends Entity {
 
   get password(): string {
     return this._password;
+  }
+
+  get isActive(): boolean {
+    return this._isActive;
+  }
+
+  get isCoordinator(): boolean {
+    return this._isCoordinator;
   }
 
   get role(): Role | undefined {

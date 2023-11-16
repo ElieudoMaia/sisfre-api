@@ -32,7 +32,15 @@ export class UserYupValidator implements ValidatorInterface<User> {
           .string()
           .typeError('password must be a string')
           .required('password is required')
-          .max(64, 'password must be less than 64 characters')
+          .max(64, 'password must be less than 64 characters'),
+        isActive: yup
+          .boolean()
+          .typeError('isActive must be a boolean')
+          .required('isActive is required'),
+        isCoordinator: yup
+          .boolean()
+          .typeError('isCoordinator must be a boolean')
+          .required('isCoordinator is required')
       });
       schema.validateSync(user, { abortEarly: false });
     } catch (error) {
