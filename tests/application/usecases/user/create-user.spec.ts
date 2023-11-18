@@ -1,7 +1,5 @@
 import { CreateUserUseCase } from '@/application/usecases/user/create/create-user.usecase';
 import { CreateUserUseCaseInputDTO } from '@/application/usecases/user/create/create-user.usecase.dto';
-import { Role } from '@/domain/role/entity/role';
-import { FindRoleByIdRepository } from '@/domain/role/repository/find-role-by-id';
 import { User } from '@/domain/user/entity/user';
 import { Hasher } from '@/domain/user/gateway/hasher';
 import { CreateUserRepository } from '@/domain/user/repository/create-use';
@@ -16,15 +14,7 @@ const makeFakeInput = (): CreateUserUseCaseInputDTO => ({
   nameAbbreviation: 'ABRV',
   password: '123456',
   passwordConfirmation: '123456',
-  roleId: fake.uuid()
-});
-
-const makeFindRoleByIdRepository = () => ({
-  findById: vi
-    .fn()
-    .mockResolvedValue(
-      new Role({ id: 'default_fake_role_id', name: 'default_fake_role_name' })
-    )
+  role: 'ADMINISTRATOR'
 });
 
 const makeFindUserByEmailRepository = () => ({
@@ -45,7 +35,6 @@ const makeHasher = () => ({
 
 type SutType = {
   sut: CreateUserUseCase;
-  findRoleByIdRepository: FindRoleByIdRepository;
   findUserByEmailRepository: FindUserByEmailRepository;
   findUserByNameAbbreviationRepository: FindUserByNameAbbreviationRepository;
   createUserRepository: CreateUserRepository;
@@ -53,7 +42,6 @@ type SutType = {
 };
 
 const makeSut = (): SutType => {
-  const findRoleByIdRepository = makeFindRoleByIdRepository();
   const findUserByEmailRepository = makeFindUserByEmailRepository();
   const findUserByNameAbbreviationRepository =
     makeFindUserByNameAbbreviationRepository();
@@ -61,7 +49,6 @@ const makeSut = (): SutType => {
   const hasher = makeHasher();
 
   const sut = new CreateUserUseCase(
-    findRoleByIdRepository,
     findUserByEmailRepository,
     findUserByNameAbbreviationRepository,
     createUserRepository,
@@ -70,7 +57,6 @@ const makeSut = (): SutType => {
 
   return {
     sut,
-    findRoleByIdRepository,
     findUserByEmailRepository,
     findUserByNameAbbreviationRepository,
     createUserRepository,
@@ -79,32 +65,6 @@ const makeSut = (): SutType => {
 };
 
 describe('CreateUserUseCase', () => {
-  it('should call findRoleByIdRepository with correct param', async () => {
-    const { sut, findRoleByIdRepository } = makeSut();
-    const input = makeFakeInput();
-    await sut.execute(input);
-    expect(findRoleByIdRepository.findById).toHaveBeenCalledWith({
-      id: input.roleId
-    });
-    expect(findRoleByIdRepository.findById).toHaveBeenCalledTimes(1);
-  });
-
-  it('should throw if findRoleByIdRepository returns null', async () => {
-    const { sut, findRoleByIdRepository } = makeSut();
-    const input = makeFakeInput();
-    vi.spyOn(findRoleByIdRepository, 'findById').mockResolvedValueOnce(null);
-    await expect(sut.execute(input)).rejects.toThrow();
-  });
-
-  it('should throw if findRoleByIdRepository throws', async () => {
-    const { sut, findRoleByIdRepository } = makeSut();
-    const input = makeFakeInput();
-    vi.spyOn(findRoleByIdRepository, 'findById').mockRejectedValueOnce(
-      new Error('any_error')
-    );
-    await expect(sut.execute(input)).rejects.toThrow(new Error('any_error'));
-  });
-
   it('should call findUserByEmailRepository with correct param', async () => {
     const { sut, findUserByEmailRepository } = makeSut();
     const input = makeFakeInput();
@@ -210,10 +170,7 @@ describe('CreateUserUseCase', () => {
         id: expect.any(String),
         createdAt: expect.any(Date),
         updatedAt: expect.any(Date),
-        role: expect.objectContaining({
-          id: 'default_fake_role_id',
-          name: 'default_fake_role_name'
-        })
+        role: 'ADMINISTRATOR'
       })
     );
   });
@@ -236,7 +193,7 @@ describe('CreateUserUseCase', () => {
       name: input.name,
       nameAbbreviation: input.nameAbbreviation,
       email: input.email,
-      roleId: input.roleId
+      role: input.role
     });
   });
 });

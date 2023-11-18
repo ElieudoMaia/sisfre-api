@@ -1,5 +1,4 @@
 import { InvalidResourceError } from '@/domain/@shared/error/invalid-resource.error';
-import { FindRoleByIdRepository } from '@/domain/role/repository/find-role-by-id';
 import { User } from '@/domain/user/entity/user';
 import { Hasher } from '@/domain/user/gateway/hasher';
 import { CreateUserRepository } from '@/domain/user/repository/create-use';
@@ -12,7 +11,6 @@ import {
 
 export class CreateUserUseCase {
   constructor(
-    private readonly findRoleByIdRepository: FindRoleByIdRepository,
     private readonly findUserByEmailRepository: FindUserByEmailRepository,
     private readonly findUserByNameAbbreviationRepository: FindUserByNameAbbreviationRepository,
     private readonly createUserRepository: CreateUserRepository,
@@ -21,13 +19,6 @@ export class CreateUserUseCase {
   async execute(
     input: CreateUserUseCaseInputDTO
   ): Promise<CreateUserUseCaseOutputDTO> {
-    const role = await this.findRoleByIdRepository.findById({
-      id: input.roleId
-    });
-    if (!role) {
-      throw new InvalidResourceError(`Role with id ${input.roleId} not found`);
-    }
-
     const userByEmail = await this.findUserByEmailRepository.findUserByEmail({
       email: input.email
     });
@@ -59,10 +50,9 @@ export class CreateUserUseCase {
       name: input.name,
       nameAbbreviation: input.nameAbbreviation,
       email: input.email,
-      password: hashedPassword
+      password: hashedPassword,
+      role: input.role
     });
-
-    user.changeRole(role);
 
     await this.createUserRepository.create(user);
 
@@ -71,7 +61,7 @@ export class CreateUserUseCase {
       email: user.email,
       name: user.name,
       nameAbbreviation: user.nameAbbreviation,
-      roleId: input.roleId
+      role: user.role
     };
   }
 }

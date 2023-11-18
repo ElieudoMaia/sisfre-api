@@ -3,7 +3,7 @@ import { CreateCourseUseCaseInputDTO } from '@/application/usecases/course/creat
 import { CheckCourseExistsByAcronymRepository } from '@/domain/course/repository/check-course-exists-by-acronym';
 import { CheckCourseExistsByNameRepository } from '@/domain/course/repository/check-course-exists-by-name';
 import { CreateCourseRepository } from '@/domain/course/repository/create-course';
-import { User } from '@/domain/user/entity/user';
+import { User, UserRole } from '@/domain/user/entity/user';
 import { FindUserByIdRepository } from '@/domain/user/repository/find-user-by-id';
 import { describe, expect, it, vi } from 'vitest';
 import { fake } from '../../../utils/fake-data-generator';
@@ -16,7 +16,10 @@ type SutTypes = {
   createCourseRepositorySpy: CreateCourseRepository;
 };
 
-const makeFakeUser = ({ isActive = true, isCoordinator = false } = {}) => {
+const makeFakeUser = ({
+  isActive = true,
+  role = 'ADMINISTRATOR' as UserRole
+} = {}) => {
   return new User({
     id: fake.uuid(),
     name: fake.name(),
@@ -24,7 +27,7 @@ const makeFakeUser = ({ isActive = true, isCoordinator = false } = {}) => {
     password: fake.password(),
     nameAbbreviation: 'ABCD',
     isActive,
-    isCoordinator,
+    role,
     createdAt: new Date(),
     updatedAt: new Date()
   });
@@ -113,7 +116,7 @@ describe('Create Course', () => {
     const { sut, findUserByIdRepositorySpy } = makeSut();
     const input = makeFakeInput();
     vi.spyOn(findUserByIdRepositorySpy, 'findUserById').mockResolvedValueOnce(
-      makeFakeUser({ isCoordinator: true })
+      makeFakeUser({ role: 'COORDINATOR' })
     );
     const promise = sut.execute(input);
     await expect(promise).rejects.toThrow(

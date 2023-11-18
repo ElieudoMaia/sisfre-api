@@ -1,15 +1,16 @@
 import { Entity } from '@/domain/@shared/entity/entity.abstract';
-import { Role } from '@/domain/role/entity/role';
 import { UserValidatorFactory } from '../factory/user.validator.factory';
+
+export type UserRole = 'ADMINISTRATOR' | 'COORDINATOR' | 'TEACHER';
 
 export type UserEntityProps = {
   id?: string;
   name: string;
   nameAbbreviation: string;
+  role: UserRole;
   email: string;
   password: string;
   isActive?: boolean;
-  isCoordinator?: boolean;
   createdAt?: Date;
   updatedAt?: Date;
 };
@@ -19,9 +20,9 @@ export class User extends Entity {
   private _nameAbbreviation: string = '';
   private _email: string = '';
   private _password: string = '';
-  private _role?: Role;
+  private _role: UserRole;
   private _isActive: boolean = true;
-  private _isCoordinator: boolean = false;
+  private _isCoordinator: boolean;
   private validator = UserValidatorFactory.create();
 
   constructor(props: UserEntityProps) {
@@ -30,8 +31,9 @@ export class User extends Entity {
     this._nameAbbreviation = props.nameAbbreviation;
     this._email = props.email;
     this._password = props.password;
+    this._role = props.role;
     this._isActive = props.isActive ?? true;
-    this._isCoordinator = props.isCoordinator ?? false;
+    this._isCoordinator = props.role === 'COORDINATOR';
 
     this.validate();
     this.checkForErrors();
@@ -65,11 +67,7 @@ export class User extends Entity {
     return this._isCoordinator;
   }
 
-  get role(): Role | undefined {
+  get role(): UserRole {
     return this._role;
-  }
-
-  public changeRole(role: Role) {
-    this._role = role;
   }
 }

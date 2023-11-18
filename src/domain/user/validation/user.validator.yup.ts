@@ -33,6 +33,14 @@ export class UserYupValidator implements ValidatorInterface<User> {
           .typeError('password must be a string')
           .required('password is required')
           .max(64, 'password must be less than 64 characters'),
+        role: yup
+          .string()
+          .typeError('role must be a string')
+          .required('role is required')
+          .oneOf(
+            ['ADMINISTRATOR', 'COORDINATOR', 'TEACHER'],
+            'role must be one of ADMINISTRATOR, COORDINATOR or TEACHER'
+          ),
         isActive: yup
           .boolean()
           .typeError('isActive must be a boolean')

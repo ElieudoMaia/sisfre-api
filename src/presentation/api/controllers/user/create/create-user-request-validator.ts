@@ -38,12 +38,15 @@ const validationSchema = yup.object().shape({
     .required('passwordConfirmation is required')
     .max(64, 'passwordConfirmation must be less than 64 characters')
     .oneOf([yup.ref('password')], 'passwords does not match'),
-  roleId: yup
+  role: yup
     .string()
-    .typeError('roleId must be a string')
+    .typeError('role must be a string')
     .trim()
-    .required('roleId is required')
-    .uuid('roleId has an invalid format')
+    .required('role is required')
+    .oneOf(
+      ['ADMINISTRATOR', 'COORDINATOR', 'TEACHER'],
+      'role must be one of ADMINISTRATOR, COORDINATOR or TEACHER'
+    )
 });
 
 export class CreateUserRequestValidator {

@@ -1,5 +1,4 @@
-import { Role } from '@/domain/role/entity/role';
-import { User, UserEntityProps } from '@/domain/user/entity/user';
+import { User, UserEntityProps, UserRole } from '@/domain/user/entity/user';
 import { describe, expect, it } from 'vitest';
 import { fake } from '../../utils/fake-data-generator';
 
@@ -9,16 +8,10 @@ const makeFakeUserProps = (): UserEntityProps => ({
   nameAbbreviation: 'ABV',
   email: fake.email(),
   password: fake.password(),
+  role: 'ADMINISTRATOR',
   createdAt: new Date(),
   updatedAt: new Date()
 });
-
-const makeFakeRole = (): Role => {
-  return new Role({
-    id: fake.uuid(),
-    name: fake.name()
-  });
-};
 
 describe('User Entity', () => {
   it('should create a new id, createdAt and updatedAt, isActive and isCoordinator when they are not provided', () => {
@@ -96,20 +89,14 @@ describe('User Entity', () => {
     }).toThrowError('password must be less than 64 characters');
   });
 
-  it('should change role correctly', () => {
+  it('should validate role correctly', () => {
     const fakeUserProps = makeFakeUserProps();
-    const user = new User(fakeUserProps);
-    expect(user.role).toBeUndefined();
-
-    const role1 = makeFakeRole();
-    user.changeRole(role1);
-    expect(user.role).toBeDefined();
-    expect(user.role).toBe(role1);
-
-    const role2 = makeFakeRole();
-    user.changeRole(role2);
-    expect(user.role).toBeDefined();
-    expect(user.role).toBe(role2);
+    expect(() => {
+      fakeUserProps.role = 'invalid' as UserRole;
+      new User(fakeUserProps);
+    }).toThrowError(
+      'role must be one of ADMINISTRATOR, COORDINATOR or TEACHER'
+    );
   });
 
   it('should create a user correctly', () => {
@@ -126,7 +113,7 @@ describe('User Entity', () => {
     expect(user.isCoordinator).toBe(false);
 
     fakeUserProps.isActive = false;
-    fakeUserProps.isCoordinator = true;
+    fakeUserProps.role = 'COORDINATOR';
     const user2 = new User(fakeUserProps);
     expect(user2).toBeInstanceOf(User);
     expect(user2.id).toBe(fakeUserProps.id);

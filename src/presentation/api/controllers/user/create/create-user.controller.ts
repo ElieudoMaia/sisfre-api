@@ -1,5 +1,6 @@
 import { CreateUserUseCase } from '@/application/usecases/user/create/create-user.usecase';
 import { ApplicationError } from '@/domain/@shared/error/application-error.error';
+import { UserRole } from '@/domain/user/entity/user';
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { handleControllerResponse } from '../../@shared/handle-controller-response';
 import { CreateUserRequestValidator } from './create-user-request-validator';
@@ -10,7 +11,7 @@ type RequetBodyType = {
   email: string;
   password: string;
   passwordConfirmation: string;
-  roleId: string;
+  role: string;
 };
 
 export class CreateUserController {
@@ -34,7 +35,7 @@ export class CreateUserController {
         email: validatedData.email,
         password: validatedData.password,
         passwordConfirmation: validatedData.passwordConfirmation,
-        roleId: validatedData.roleId
+        role: validatedData.role as UserRole
       });
 
       return reply.status(201).send({ ...createdUser });

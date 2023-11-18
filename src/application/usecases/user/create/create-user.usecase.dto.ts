@@ -1,10 +1,12 @@
+import { UserRole } from '@/domain/user/entity/user';
+
 export interface CreateUserUseCaseInputDTO {
   name: string;
   nameAbbreviation: string;
   email: string;
   password: string;
   passwordConfirmation: string;
-  roleId: string;
+  role: UserRole;
 }
 
 export interface CreateUserUseCaseOutputDTO {
@@ -12,5 +14,5 @@ export interface CreateUserUseCaseOutputDTO {
   name: string;
   nameAbbreviation: string;
   email: string;
-  roleId: string;
+  role: UserRole;
 }

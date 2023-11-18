@@ -1,4 +1,4 @@
-import { User } from '@/domain/user/entity/user';
+import { User, UserRole } from '@/domain/user/entity/user';
 import { CreateUserRepository } from '@/domain/user/repository/create-use';
 import {
   FindUserByNameAbbreviationRepository,
@@ -20,7 +20,6 @@ export class UserRepository
     CreateUserRepository
 {
   async create(input: User): Promise<void> {
-    if (!input?.role?.id) throw new Error('Role id must be null');
     await prisma.user.create({
       data: {
         id: input.id,
@@ -28,7 +27,7 @@ export class UserRepository
         name_abbreviation: input.nameAbbreviation,
         email: input.email,
         password: input.password,
-        role_id: input.role.id,
+        role: input.role,
         created_at: input.createdAt,
         updated_at: input.updatedAt
       }
@@ -50,6 +49,8 @@ export class UserRepository
       nameAbbreviation: user.name_abbreviation,
       email: user.email,
       password: user.password,
+      role: user.role as UserRole,
+      isActive: user.is_active,
       createdAt: user.created_at,
       updatedAt: user.updated_at
     });
@@ -71,6 +72,8 @@ export class UserRepository
       name: user.name,
       nameAbbreviation: user.name_abbreviation,
       email: user.email,
+      role: user.role as UserRole,
+      isActive: user.is_active,
       password: user.password,
       createdAt: user.created_at,
       updatedAt: user.updated_at
