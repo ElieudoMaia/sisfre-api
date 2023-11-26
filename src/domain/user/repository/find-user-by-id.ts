@@ -1,7 +1,7 @@
 import { User } from '../entity/user';
 
-export type Output = User | null;
+export type FindUserByIdRepositoryOutput = User | null;
 
 export interface FindUserByIdRepository {
-  findUserById(id: string): Promise<Output>;
+  findUserById(id: string): Promise<FindUserByIdRepositoryOutput>;
 }
