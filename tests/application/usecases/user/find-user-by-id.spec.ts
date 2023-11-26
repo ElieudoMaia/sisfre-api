@@ -78,7 +78,8 @@ describe('FindUserByIdUseCase', () => {
       role: user.role,
       isActive: user.isActive,
       createdAt: user.createdAt,
-      updatedAt: user.updatedAt
+      updatedAt: user.updatedAt,
+      password: undefined
     });
   });
 });
