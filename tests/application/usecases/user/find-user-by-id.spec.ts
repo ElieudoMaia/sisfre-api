@@ -1,4 +1,4 @@
-import { FindUserByIdUseCase } from '@/application/usecases/user/find-by-id/find-user-by-id.usecase.dto';
+import { FindUserByIdUseCase } from '@/application/usecases/user/find-by-id/find-user-by-id.usecase';
 import { User, UserRole } from '@/domain/user/entity/user';
 import { FindUserByIdRepository } from '@/domain/user/repository/find-user-by-id';
 import { describe, expect, it, vi } from 'vitest';
