@@ -14,6 +14,11 @@ import {
   FindUserByIdRepository,
   FindUserByIdRepositoryOutput
 } from '@/domain/user/repository/find-user-by-id';
+import {
+  ListUsersRepository,
+  ListUsersRepositoryInput,
+  ListUsersRepositoryOutput
+} from '@/domain/user/repository/list-users';
 import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
@@ -22,8 +27,50 @@ export class UserRepository
     FindUserByEmailRepository,
     FindUserByNameAbbreviationRepository,
     CreateUserRepository,
-    FindUserByIdRepository
+    FindUserByIdRepository,
+    ListUsersRepository
 {
+  async findAll(
+    params: ListUsersRepositoryInput
+  ): Promise<ListUsersRepositoryOutput> {
+    const { pageNumber, pageSize } = params;
+
+    let skip: number | undefined;
+    let take: number | undefined;
+    if (pageNumber && pageSize) {
+      skip = (pageNumber - 1) * pageSize;
+      take = pageSize;
+    }
+
+    const [users, total] = await Promise.all([
+      prisma.user.findMany({
+        skip,
+        take
+      }),
+      prisma.user.count()
+    ]);
+
+    const usersDTO = users.map(
+      (user) =>
+        new User({
+          id: user.id,
+          name: user.name,
+          nameAbbreviation: user.name_abbreviation,
+          email: user.email,
+          role: user.role as UserRole,
+          isActive: user.is_active,
+          password: user.password,
+          createdAt: user.created_at,
+          updatedAt: user.updated_at
+        })
+    );
+
+    return {
+      quantity: total,
+      users: usersDTO
+    };
+  }
+
   async create(input: User): Promise<void> {
     await prisma.user.create({
       data: {
