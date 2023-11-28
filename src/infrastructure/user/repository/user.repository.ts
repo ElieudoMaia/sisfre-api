@@ -1,5 +1,5 @@
 import { User, UserRole } from '@/domain/user/entity/user';
-import { CreateUserRepository } from '@/domain/user/repository/create-use';
+import { CreateUserRepository } from '@/domain/user/repository/create-user';
 import {
   FindUserByNameAbbreviationRepository,
   FindUserByNameAbbreviationRepositoryInput,

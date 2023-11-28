@@ -1,7 +1,7 @@
 import { InvalidResourceError } from '@/domain/@shared/error/invalid-resource.error';
 import { User } from '@/domain/user/entity/user';
 import { Hasher } from '@/domain/user/gateway/hasher';
-import { CreateUserRepository } from '@/domain/user/repository/create-use';
+import { CreateUserRepository } from '@/domain/user/repository/create-user';
 import { FindUserByNameAbbreviationRepository } from '@/domain/user/repository/find-user-by-abbreviation-name';
 import { FindUserByEmailRepository } from '@/domain/user/repository/find-user-by-email';
 import {
