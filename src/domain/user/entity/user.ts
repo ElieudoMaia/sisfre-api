@@ -47,12 +47,30 @@ export class User extends Entity {
     return this._name;
   }
 
+  set name(name: string) {
+    this._name = name;
+    this.updatedAt = new Date();
+    this.validate();
+  }
+
   get nameAbbreviation(): string {
     return this._nameAbbreviation;
   }
 
+  set nameAbbreviation(nameAbbreviation: string) {
+    this._nameAbbreviation = nameAbbreviation;
+    this.updatedAt = new Date();
+    this.validate();
+  }
+
   get email(): string {
     return this._email;
+  }
+
+  set email(email: string) {
+    this._email = email;
+    this.updatedAt = new Date();
+    this.validate();
   }
 
   get password(): string {
@@ -69,5 +87,11 @@ export class User extends Entity {
 
   get role(): UserRole {
     return this._role;
+  }
+
+  set role(role: UserRole) {
+    this._role = role;
+    this.updatedAt = new Date();
+    this.validate();
   }
 }

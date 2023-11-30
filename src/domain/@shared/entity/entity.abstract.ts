@@ -32,4 +32,8 @@ export abstract class Entity {
   get updatedAt(): Date {
     return this._updatedAt;
   }
+
+  protected set updatedAt(updatedAt: Date) {
+    this._updatedAt = updatedAt;
+  }
 }
