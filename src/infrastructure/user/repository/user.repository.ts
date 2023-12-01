@@ -19,6 +19,7 @@ import {
   ListUsersRepositoryInput,
   ListUsersRepositoryOutput
 } from '@/domain/user/repository/list-users';
+import { UpdateUserRepository } from '@/domain/user/repository/update-user';
 import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
@@ -28,7 +29,8 @@ export class UserRepository
     FindUserByNameAbbreviationRepository,
     CreateUserRepository,
     FindUserByIdRepository,
-    ListUsersRepository
+    ListUsersRepository,
+    UpdateUserRepository
 {
   async findAll(
     params: ListUsersRepositoryInput
@@ -82,6 +84,23 @@ export class UserRepository
         role: input.role,
         created_at: input.createdAt,
         updated_at: input.updatedAt
+      }
+    });
+  }
+
+  async updateUser(user: User): Promise<void> {
+    await prisma.user.update({
+      where: {
+        id: user.id
+      },
+      data: {
+        name: user.name,
+        name_abbreviation: user.nameAbbreviation,
+        email: user.email,
+        role: user.role,
+        is_active: user.isActive,
+        password: user.password,
+        updated_at: user.updatedAt
       }
     });
   }
