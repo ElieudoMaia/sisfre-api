@@ -1,0 +1,51 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import * as yup from 'yup';
+
+const validationSchema = yup.object().shape({
+  id: yup
+    .string()
+    .typeError('id must be a string')
+    .trim()
+    .required('id is required')
+    .uuid('id is invalid'),
+  name: yup
+    .string()
+    .typeError('name must be a string')
+    .trim()
+    .required('name is required')
+    .max(255, 'name must be less than 255 characters'),
+  nameAbbreviation: yup
+    .string()
+    .typeError('nameAbbreviation must be a string')
+    .trim()
+    .required('nameAbbreviation is required')
+    .matches(
+      /^[A-Z]{3,10}$/,
+      'nameAbbreviation must be in the format [A-Z] and have between 3 and 10 characters'
+    )
+    .max(10, 'nameAbbreviation must be less than 10 characters'),
+  email: yup
+    .string()
+    .typeError('email must be a string')
+    .trim()
+    .required('email is required')
+    .max(255, 'email must be less than 255 characters')
+    .email('email is invalid'),
+  role: yup
+    .string()
+    .typeError('role must be a string')
+    .trim()
+    .required('role is required')
+    .oneOf(
+      ['ADMINISTRATOR', 'COORDINATOR', 'TEACHER'],
+      'role must be one of ADMINISTRATOR, COORDINATOR or TEACHER'
+    )
+});
+
+export class UpdateUserRequestValidator {
+  async validate(data: any) {
+    return await validationSchema.validate(data, {
+      abortEarly: false
+    });
+  }
+}
