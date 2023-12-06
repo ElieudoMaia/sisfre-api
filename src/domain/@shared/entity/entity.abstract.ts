@@ -9,9 +9,9 @@ export abstract class Entity {
   public notification: Notification;
 
   constructor(id?: string, createdAt?: Date, updatedAt?: Date) {
-    this._id = id || crypto.randomUUID();
-    this._createdAt = createdAt || new Date();
-    this._updatedAt = updatedAt || new Date();
+    this._id = id ?? crypto.randomUUID();
+    this._createdAt = createdAt ?? new Date();
+    this._updatedAt = updatedAt ?? new Date();
     this.notification = new Notification();
   }
 

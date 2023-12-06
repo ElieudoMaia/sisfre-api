@@ -44,6 +44,17 @@ export class CourseYupValidator implements ValidatorInterface<Course> {
           .required('duration is required')
           .min(1, 'duration must be greater than 0')
       });
+
+      if (
+        course.coordinator &&
+        course.coordinator.id !== course.coordinatorId
+      ) {
+        course.notification.addError({
+          context: 'Course',
+          message: 'coordinatorId must be the same as coordinator.id'
+        });
+      }
+
       schema.validateSync(course, { abortEarly: false });
     } catch (error) {
       const e = error as yup.ValidationError;

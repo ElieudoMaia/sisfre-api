@@ -1,4 +1,5 @@
 import { Entity } from '@/domain/@shared/entity/entity.abstract';
+import { User } from '@/domain/user/entity/user';
 import { CourseValidatorFactory } from '../factory/course.validator.factory';
 
 export type CourseType = 'GRADUATION' | 'INTEGRATED' | 'TECHNICAL';
@@ -20,6 +21,7 @@ export class Course extends Entity {
   private _coordinatorId: string;
   private _acronym: string;
   private _duration: number;
+  private _coordinator?: User;
   private validator = CourseValidatorFactory.create();
 
   constructor(props: CourseEntityProps) {
@@ -56,5 +58,15 @@ export class Course extends Entity {
 
   get duration(): number {
     return this._duration;
+  }
+
+  get coordinator(): User | undefined {
+    return this._coordinator;
+  }
+
+  set coordinator(coordinator: User | undefined) {
+    this._coordinator = coordinator;
+    this.validate();
+    this.checkForErrors();
   }
 }
