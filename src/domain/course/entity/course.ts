@@ -11,6 +11,7 @@ export type CourseEntityProps = {
   coordinatorId: string;
   acronym: string;
   duration: number;
+  coordinator?: User;
   createdAt?: Date;
   updatedAt?: Date;
 };
@@ -31,6 +32,7 @@ export class Course extends Entity {
     this._coordinatorId = props.coordinatorId;
     this._acronym = props.acronym;
     this._duration = props.duration;
+    this.coordinator = props.coordinator;
 
     this.validate();
     this.checkForErrors();
@@ -66,6 +68,36 @@ export class Course extends Entity {
 
   set coordinator(coordinator: User | undefined) {
     this._coordinator = coordinator;
+    this.validate();
+    this.checkForErrors();
+  }
+
+  set name(name: string) {
+    this._name = name;
+    this.validate();
+    this.checkForErrors();
+  }
+
+  set type(type: CourseType) {
+    this._type = type;
+    this.validate();
+    this.checkForErrors();
+  }
+
+  set coordinatorId(coordinatorId: string) {
+    this._coordinatorId = coordinatorId;
+    this.validate();
+    this.checkForErrors();
+  }
+
+  set acronym(acronym: string) {
+    this._acronym = acronym;
+    this.validate();
+    this.checkForErrors();
+  }
+
+  set duration(duration: number) {
+    this._duration = duration;
     this.validate();
     this.checkForErrors();
   }

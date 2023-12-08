@@ -1,35 +1,32 @@
 import { InvalidResourceError } from '@/domain/@shared/error/invalid-resource.error';
-import { Course } from '@/domain/course/entity/course';
+import { NotFoundError } from '@/domain/@shared/error/not-found.error';
 import { CheckCourseExistsByAcronymRepository } from '@/domain/course/repository/check-course-exists-by-acronym';
 import { CheckCourseExistsByNameRepository } from '@/domain/course/repository/check-course-exists-by-name';
-import { CreateCourseRepository } from '@/domain/course/repository/create-course';
+import { FindCourseByIdRepository } from '@/domain/course/repository/find-course-by-id';
+import { UpdateCourseRepository } from '@/domain/course/repository/update-course';
 import { FindUserByIdRepository } from '@/domain/user/repository/find-user-by-id';
 import {
-  CreateCourseUseCaseInputDTO,
-  CreateCourseUseCaseOutputDTO
-} from './create-course.usecase.dto';
+  UpdateCourseUseCaseInputDTO,
+  UpdateCourseUseCaseOutputDTO
+} from './update-course.usecase.dto';
 
-export class CreateCourseUseCase {
+export class UpdateCourseUsecase {
   constructor(
+    private readonly findCourseByIdRepository: FindCourseByIdRepository,
     private readonly findUserByIdRepository: FindUserByIdRepository,
     private readonly checkCourseExistsByNameRepository: CheckCourseExistsByNameRepository,
     private readonly checkCourseExistsByAcronymRepository: CheckCourseExistsByAcronymRepository,
-    private readonly createCourseRepository: CreateCourseRepository
+    private readonly updateCourseRepository: UpdateCourseRepository
   ) {}
 
   async execute(
-    input: CreateCourseUseCaseInputDTO
-  ): Promise<CreateCourseUseCaseOutputDTO> {
-    const course = new Course({
-      name: input.name,
-      type: input.type,
-      acronym: input.acronym,
-      coordinatorId: input.coordinatorId,
-      duration: input.duration
-    });
+    input: UpdateCourseUseCaseInputDTO
+  ): Promise<UpdateCourseUseCaseOutputDTO> {
+    const course = await this.findCourseByIdRepository.findCourseById(input.id);
+    if (!course) throw new NotFoundError('Course not found');
 
     const user = await this.findUserByIdRepository.findUserById(
-      course.coordinatorId
+      input.coordinatorId
     );
     if (!user) {
       throw new InvalidResourceError('Coordinator does not exist');
@@ -37,30 +34,37 @@ export class CreateCourseUseCase {
     if (!user.isActive) {
       throw new InvalidResourceError('Coordinator is not a active user');
     }
-    if (user.isCoordinator) {
+    if (user.isCoordinator && input.coordinatorId !== course.coordinatorId) {
       throw new InvalidResourceError(
         'Coordinator is already assigned to a course'
       );
     }
 
-    const courseNameAlreadyExists =
+    const foundCourseByName =
       await this.checkCourseExistsByNameRepository.checkCourseExistsByName(
-        course.name
+        input.name
       );
-    if (courseNameAlreadyExists) {
+    if (foundCourseByName && foundCourseByName.id !== input.id) {
       throw new InvalidResourceError('Already exists a course with this name');
     }
 
-    const courseAcronymAlreadyExists =
+    const foundCourseByAcronym =
       await this.checkCourseExistsByAcronymRepository.checkCourseExistsByAcronym(
-        course.acronym
+        input.acronym
       );
-    if (courseAcronymAlreadyExists) {
+    if (foundCourseByAcronym && foundCourseByAcronym.id !== input.id) {
       throw new InvalidResourceError(
         'Already exists a course with this acronym'
       );
     }
 
-    await this.createCourseRepository.createCourse(course);
+    course.name = input.name;
+    course.type = input.type;
+    course.acronym = input.acronym;
+    course.coordinatorId = input.coordinatorId;
+    course.duration = input.duration;
+    course.coordinator = user;
+
+    await this.updateCourseRepository.updateCourse(course);
   }
 }

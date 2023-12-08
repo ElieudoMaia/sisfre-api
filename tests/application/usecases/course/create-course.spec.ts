@@ -3,9 +3,9 @@ import { CreateCourseUseCaseInputDTO } from '@/application/usecases/course/creat
 import { CheckCourseExistsByAcronymRepository } from '@/domain/course/repository/check-course-exists-by-acronym';
 import { CheckCourseExistsByNameRepository } from '@/domain/course/repository/check-course-exists-by-name';
 import { CreateCourseRepository } from '@/domain/course/repository/create-course';
-import { User, UserRole } from '@/domain/user/entity/user';
 import { FindUserByIdRepository } from '@/domain/user/repository/find-user-by-id';
 import { describe, expect, it, vi } from 'vitest';
+import { makeFakeUser } from '../../../@shared/fakes';
 import { fake } from '../../../utils/fake-data-generator';
 
 type SutTypes = {
@@ -16,32 +16,15 @@ type SutTypes = {
   createCourseRepositorySpy: CreateCourseRepository;
 };
 
-const makeFakeUser = ({
-  isActive = true,
-  role = 'ADMINISTRATOR' as UserRole
-} = {}) => {
-  return new User({
-    id: fake.uuid(),
-    name: fake.name(),
-    email: fake.email(),
-    password: fake.password(),
-    nameAbbreviation: 'ABCD',
-    isActive,
-    role,
-    createdAt: new Date(),
-    updatedAt: new Date()
-  });
-};
-
 const makeSut = (): SutTypes => {
   const findUserByIdRepositorySpy = {
     findUserById: vi.fn().mockResolvedValue(makeFakeUser())
   };
   const checkCourseExistsByNameRepositorySpy = {
-    checkCourseExistsByName: vi.fn().mockResolvedValue(false)
+    checkCourseExistsByName: vi.fn().mockResolvedValue(undefined)
   };
   const checkCourseExistsByAcronymRepositorySpy = {
-    checkCourseExistsByAcronym: vi.fn().mockResolvedValue(false)
+    checkCourseExistsByAcronym: vi.fn().mockResolvedValue(undefined)
   };
   const createCourseRepositorySpy = { createCourse: vi.fn() };
   const sut = new CreateCourseUseCase(
@@ -153,7 +136,11 @@ describe('Create Course', () => {
     vi.spyOn(
       checkCourseExistsByNameRepositorySpy,
       'checkCourseExistsByName'
-    ).mockResolvedValueOnce(true);
+    ).mockResolvedValueOnce({
+      id: fake.uuid(),
+      name: input.name,
+      type: 'GRADUATION'
+    });
     const promise = sut.execute(input);
     await expect(promise).rejects.toThrow(
       new Error('Already exists a course with this name')
@@ -189,7 +176,11 @@ describe('Create Course', () => {
     vi.spyOn(
       checkCourseExistsByAcronymRepositorySpy,
       'checkCourseExistsByAcronym'
-    ).mockResolvedValueOnce(true);
+    ).mockResolvedValueOnce({
+      id: fake.uuid(),
+      name: 'Test',
+      type: 'GRADUATION'
+    });
     const promise = sut.execute(input);
     await expect(promise).rejects.toThrow(
       new Error('Already exists a course with this acronym')
