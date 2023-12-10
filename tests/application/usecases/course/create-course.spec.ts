@@ -213,10 +213,19 @@ describe('Create Course', () => {
     await expect(promise).rejects.toThrow(new Error('Test throw'));
   });
 
-  it('should return void if all data is valid', async () => {
+  it('should return data on success', async () => {
     const { sut } = makeSut();
     const input = makeFakeInput();
     const result = await sut.execute(input);
-    expect(result).toBeUndefined();
+    expect(result).toEqual({
+      id: expect.any(String),
+      name: input.name,
+      type: input.type,
+      acronym: input.acronym,
+      coordinatorId: input.coordinatorId,
+      duration: input.duration,
+      createdAt: expect.any(Date),
+      updatedAt: expect.any(Date)
+    });
   });
 });

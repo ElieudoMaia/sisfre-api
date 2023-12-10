@@ -8,4 +8,13 @@ export type CreateCourseUseCaseInputDTO = {
   duration: number;
 };
 
-export type CreateCourseUseCaseOutputDTO = void;
+export type CreateCourseUseCaseOutputDTO = {
+  id: string;
+  name: string;
+  type: CourseType;
+  coordinatorId: string;
+  acronym: string;
+  duration: number;
+  createdAt: Date;
+  updatedAt: Date;
+};

@@ -62,5 +62,16 @@ export class CreateCourseUseCase {
     }
 
     await this.createCourseRepository.createCourse(course);
+
+    return {
+      id: course.id,
+      name: course.name,
+      type: course.type,
+      coordinatorId: course.coordinatorId,
+      acronym: course.acronym,
+      duration: course.duration,
+      createdAt: course.createdAt,
+      updatedAt: course.updatedAt
+    };
   }
 }

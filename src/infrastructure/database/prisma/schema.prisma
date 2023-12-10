@@ -20,6 +20,19 @@ model User {
   is_active         Boolean  @default(true)
   created_at        DateTime @default(now())
   updated_at        DateTime @updatedAt
+  Course            Course?
 
   @@map(name: "users")
+}
+
+model Course {
+  id             String @id @default(uuid()) @db.Uuid
+  name           String @unique @db.VarChar(255)
+  type           String @db.VarChar(50)
+  acronym        String @unique @db.VarChar(10)
+  duration       Int    @db.Integer
+  coordinator_id String @unique @db.Uuid
+  coordinator    User   @relation(fields: [coordinator_id], references: [id])
+
+  @@map(name: "courses")
 }
