@@ -56,6 +56,7 @@ export class CourseRepository
     await prisma.$transaction([
       prisma.course.create({
         data: {
+          id: course.id,
           name: course.name,
           acronym: course.acronym,
           type: course.type,
