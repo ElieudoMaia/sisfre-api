@@ -12,6 +12,11 @@ import {
   FindCourseByIdRepository,
   FindCourseByIdRepositoryOutput
 } from '@/domain/course/repository/find-course-by-id';
+import {
+  ListCoursesRepository,
+  ListCoursesRepositoryInput,
+  ListCoursesRepositoryOutput
+} from '@/domain/course/repository/list-courses';
 import { UpdateCourseRepository } from '@/domain/course/repository/update-course';
 import { User, UserRole } from '@/domain/user/entity/user';
 import { PrismaClient } from '@prisma/client';
@@ -24,8 +29,61 @@ export class CourseRepository
     CheckCourseExistsByAcronymRepository,
     CreateCourseRepository,
     FindCourseByIdRepository,
-    UpdateCourseRepository
+    UpdateCourseRepository,
+    ListCoursesRepository
 {
+  async findAll(
+    params: ListCoursesRepositoryInput
+  ): Promise<ListCoursesRepositoryOutput> {
+    const { pageNumber, pageSize } = params;
+
+    let skip: number | undefined;
+    let take: number | undefined;
+    if (pageNumber && pageSize) {
+      skip = (pageNumber - 1) * pageSize;
+      take = pageSize;
+    }
+
+    const [courses, total] = await Promise.all([
+      prisma.course.findMany({
+        skip,
+        take,
+        include: { coordinator: true }
+      }),
+      prisma.course.count()
+    ]);
+
+    const coursesDTO = courses.map(
+      (course) =>
+        new Course({
+          id: course.id,
+          name: course.name,
+          type: course.type as CourseType,
+          acronym: course.acronym,
+          duration: course.duration,
+          coordinatorId: course.coordinator_id,
+          createdAt: course.created_at,
+          updatedAt: course.updated_at,
+          coordinator: new User({
+            id: course.coordinator.id,
+            name: course.coordinator.name,
+            email: course.coordinator.email,
+            nameAbbreviation: course.coordinator.name_abbreviation,
+            role: course.coordinator.role as UserRole,
+            password: course.coordinator.password,
+            isActive: course.coordinator.is_active,
+            createdAt: course.coordinator.created_at,
+            updatedAt: course.coordinator.updated_at
+          })
+        })
+    );
+
+    return {
+      quantity: total,
+      courses: coursesDTO
+    };
+  }
+
   async checkCourseExistsByName(
     name: string
   ): Promise<CheckCourseExistsByNameRepositoryOutput> {
