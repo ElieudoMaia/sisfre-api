@@ -5,6 +5,7 @@ import { AccessTokenGenerator } from '@/domain/user/gateway/access-token-generat
 import { HashComparer } from '@/domain/user/gateway/hash-comparer';
 import { FindUserByEmailRepository } from '@/domain/user/repository/find-user-by-email';
 import { describe, expect, it, vi } from 'vitest';
+import { makeFakeUser } from '../../../@shared/fakes';
 import { fake } from '../../../utils/fake-data-generator';
 
 const fakeUser = {
@@ -12,6 +13,7 @@ const fakeUser = {
   name: 'any_name',
   email: 'any_email@mail.com',
   password: 'any_hashed_password',
+  isActive: true,
   createdAt: new Date(),
   updatedAt: new Date()
 };
@@ -97,6 +99,18 @@ describe('Login', () => {
     const promise = sut.execute(makeFakeInput());
     await expect(promise).rejects.toThrow(
       new NotAllowedError('User not found')
+    );
+  });
+
+  it('should throw if the user is not active', async () => {
+    const { sut, findUserByEmailRepository } = makeSut();
+    vi.spyOn(
+      findUserByEmailRepository,
+      'findUserByEmail'
+    ).mockResolvedValueOnce(makeFakeUser({ isActive: false }));
+    const promise = sut.execute(makeFakeInput());
+    await expect(promise).rejects.toThrow(
+      new NotAllowedError('User is not active')
     );
   });
 

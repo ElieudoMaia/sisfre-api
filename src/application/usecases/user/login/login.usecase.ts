@@ -19,6 +19,7 @@ export class LoginUseCase {
     });
 
     if (!user) throw new NotAllowedError('User not found');
+    if (!user.isActive) throw new NotAllowedError('User is not active');
 
     const isPasswordCorrect = await this.hashComparer.compare(
       input.password,
