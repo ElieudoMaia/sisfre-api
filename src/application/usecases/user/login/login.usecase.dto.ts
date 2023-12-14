@@ -1,8 +1,8 @@
-export interface LoginUseCaseInputDTO {
+export type LoginUseCaseInputDTO = {
   email: string;
   password: string;
-}
+};
 
-export interface LoginUseCaseOutputDTO {
+export type LoginUseCaseOutputDTO = {
   accessToken: string;
-}
+};

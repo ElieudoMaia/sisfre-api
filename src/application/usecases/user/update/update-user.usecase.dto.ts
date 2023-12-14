@@ -1,17 +1,17 @@
 import { UserRole } from '@/domain/user/entity/user';
 
-export interface UpdateUserUseCaseInputDTO {
+export type UpdateUserUseCaseInputDTO = {
   id: string;
   name: string;
   nameAbbreviation: string;
   email: string;
   role: UserRole;
-}
+};
 
-export interface UpdateUserUseCaseOutputDTO {
+export type UpdateUserUseCaseOutputDTO = {
   id: string;
   name: string;
   nameAbbreviation: string;
   email: string;
   role: UserRole;
-}
+};
