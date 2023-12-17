@@ -9,12 +9,17 @@ import { makeFakeSchoolSaturday } from '../../../@shared/fakes';
 import { fake } from '../../../utils/fake-data-generator';
 
 const schoolSaturdayId = fake.uuid();
+const schoolSatudayCreatedAt = new Date();
+schoolSatudayCreatedAt.setSeconds(schoolSatudayCreatedAt.getSeconds() - 1);
 
 const makeFindSchoolSaturdayByIdRepositoryMock =
   (): FindSchoolSaturdayByIdRepository => ({
-    findById: vi
-      .fn()
-      .mockResolvedValue(makeFakeSchoolSaturday({ id: schoolSaturdayId }))
+    findById: vi.fn().mockResolvedValue(
+      makeFakeSchoolSaturday({
+        id: schoolSaturdayId,
+        createdAt: schoolSatudayCreatedAt
+      })
+    )
   });
 
 const makeFindSchoolSaturdayByDateRepositoryMock =
