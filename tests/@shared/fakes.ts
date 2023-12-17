@@ -1,4 +1,5 @@
 import { Course, CourseType } from '@/domain/course/entity/course';
+import { SchoolSaturday } from '@/domain/school-saturday/entity/school-saturday';
 import { User, UserRole } from '@/domain/user/entity/user';
 import { fake } from '../utils/fake-data-generator';
 
@@ -34,5 +35,13 @@ export const makeFakeCourse = ({
     coordinatorId,
     createdAt: new Date(),
     updatedAt: new Date()
+  });
+};
+
+export const makeFakeSchoolSaturday = ({ id = fake.uuid() } = {}) => {
+  return new SchoolSaturday({
+    id,
+    referringTo: 'MONDAY',
+    date: new Date(2101, 0, 1)
   });
 };

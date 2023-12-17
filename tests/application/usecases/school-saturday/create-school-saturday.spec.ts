@@ -3,13 +3,11 @@ import {
   CreateSchoolSaturdayUseCaseInputDTO,
   CreateSchoolSaturdayUseCaseOutputDTO
 } from '@/application/usecases/school-saturday/create/create-school-saturday.usecase.dto';
-import {
-  ReferencedDayOfWeek,
-  SchoolSaturday
-} from '@/domain/school-saturday/entity/school-saturday';
+import { ReferencedDayOfWeek } from '@/domain/school-saturday/entity/school-saturday';
 import { CreateSchoolSaturdayRepository } from '@/domain/school-saturday/repository/create-school-saturday';
 import { FindSchoolSaturdayByDateRepository } from '@/domain/school-saturday/repository/find-school-saturday-by-date';
 import { describe, expect, it, vi } from 'vitest';
+import { makeFakeSchoolSaturday } from '../../../@shared/fakes';
 
 const makeFindSchoolSaturdayByDateRepositoryMock =
   (): FindSchoolSaturdayByDateRepository => ({
@@ -41,14 +39,6 @@ const makeSut = (): SutTypes => {
     findSchoolSaturdayByDateRepositoryMock,
     createSchoolSaturdayRepositoryMock
   };
-};
-
-const makeFakeSchoolSaturday = ({ id = undefined } = {}) => {
-  return new SchoolSaturday({
-    id,
-    referringTo: 'MONDAY',
-    date: new Date(2101, 0, 1)
-  });
 };
 
 const makeFakeCreateSchoolSaturdayUseCaseInputDTO =
