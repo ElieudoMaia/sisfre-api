@@ -38,10 +38,14 @@ export const makeFakeCourse = ({
   });
 };
 
-export const makeFakeSchoolSaturday = ({ id = fake.uuid() } = {}) => {
+export const makeFakeSchoolSaturday = ({
+  id = fake.uuid(),
+  createdAt = new Date()
+} = {}) => {
   return new SchoolSaturday({
     id,
     referringTo: 'MONDAY',
-    date: new Date(2101, 0, 1)
+    date: new Date(2101, 0, 1),
+    createdAt
   });
 };
