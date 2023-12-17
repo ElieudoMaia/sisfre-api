@@ -25,6 +25,7 @@ export class SchoolSaturday extends Entity {
     super(props.id, props.createdAt, props.updatedAt);
     this._referringTo = props.referringTo;
     this._date = props.date;
+    this._date.setHours(0, 0, 0, 0);
 
     this.validate();
   }

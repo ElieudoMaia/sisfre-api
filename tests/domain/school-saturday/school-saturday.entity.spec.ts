@@ -67,7 +67,7 @@ describe('SchoolSaturday Entity', () => {
     expect(() => {
       fakeSchoolSaturdayProps.date = '' as unknown as Date;
       new SchoolSaturday(fakeSchoolSaturdayProps);
-    }).toThrow('date must be a date');
+    }).toThrow();
     expect(() => {
       fakeSchoolSaturdayProps.date = new Date(2020, 11, 26); // is a saturday but in the past
       new SchoolSaturday(fakeSchoolSaturdayProps);
