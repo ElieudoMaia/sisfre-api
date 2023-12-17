@@ -1,14 +1,14 @@
-import { ReferencedDayOfWeek } from '@/domain/school-saturday/entity/school-saturday';
+import { DayOfWeek } from '@/domain/school-saturday/entity/school-saturday';
 
 export type UpdateSchoolSaturdayUseCaseInputDTO = {
   id: string;
-  referringTo: ReferencedDayOfWeek;
+  dayOfWeek: DayOfWeek;
   date: Date;
 };
 
 export type UpdateSchoolSaturdayUseCaseOutputDTO = {
   id: string;
-  referringTo: ReferencedDayOfWeek;
+  dayOfWeek: DayOfWeek;
   date: Date;
   createdAt: Date;
   updatedAt: Date;

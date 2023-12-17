@@ -3,13 +3,7 @@ import * as yup from 'yup';
 import { ValidatorInterface } from '@/domain/@shared/validation/validator.interface';
 import { SchoolSaturday } from '../entity/school-saturday';
 
-const validReferencedDayOfWeek = [
-  'MONDAY',
-  'TUESDAY',
-  'WEDNESDAY',
-  'THURSDAY',
-  'FRIDAY'
-];
+const validDayOfWeek = ['MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY'];
 
 export class SchoolSaturdayYupValidator
   implements ValidatorInterface<SchoolSaturday>
@@ -23,12 +17,12 @@ export class SchoolSaturdayYupValidator
           .trim()
           .uuid('id must be a valid uuid')
           .notRequired(),
-        referringTo: yup
+        dayOfWeek: yup
           .string()
           .required()
           .oneOf(
-            validReferencedDayOfWeek,
-            `referringTo must be one of: ${validReferencedDayOfWeek.join(', ')}`
+            validDayOfWeek,
+            `dayOfWeek must be one of: ${validDayOfWeek.join(', ')}`
           ),
         date: yup
           .date()

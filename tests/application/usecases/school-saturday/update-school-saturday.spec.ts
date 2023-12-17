@@ -63,7 +63,7 @@ const makeSut = (): SutTypes => {
 const makeFakeUpdateSchoolSaturdayUseCaseInputDTO =
   (): UpdateSchoolSaturdayUseCaseInputDTO => ({
     id: schoolSaturdayId,
-    referringTo: 'WEDNESDAY',
+    dayOfWeek: 'WEDNESDAY',
     date: new Date(2101, 0, 1)
   });
 
@@ -108,7 +108,7 @@ describe('UpdateSchoolSaturdayUseCase', () => {
     ).mockResolvedValueOnce(
       new SchoolSaturday({
         id: input.id,
-        referringTo: input.referringTo,
+        dayOfWeek: input.dayOfWeek,
         date: input.date,
         createdAt: new Date(),
         updatedAt: new Date()
@@ -160,7 +160,7 @@ describe('UpdateSchoolSaturdayUseCase', () => {
     ).mockResolvedValueOnce(
       new SchoolSaturday({
         id: input.id,
-        referringTo: input.referringTo,
+        dayOfWeek: input.dayOfWeek,
         date: input.date,
         createdAt: new Date(),
         updatedAt: new Date()
@@ -177,7 +177,7 @@ describe('UpdateSchoolSaturdayUseCase', () => {
     expect(updateSchoolSaturdayRepositoryStub.update).toHaveBeenCalledWith(
       expect.objectContaining({
         id: input.id,
-        referringTo: input.referringTo,
+        dayOfWeek: input.dayOfWeek,
         date: input.date,
         createdAt: expect.any(Date),
         updatedAt: expect.any(Date)
@@ -203,7 +203,7 @@ describe('UpdateSchoolSaturdayUseCase', () => {
     expect(result).toEqual(
       expect.objectContaining({
         id: input.id,
-        referringTo: input.referringTo,
+        dayOfWeek: input.dayOfWeek,
         date: input.date,
         createdAt: expect.any(Date),
         updatedAt: expect.any(Date)

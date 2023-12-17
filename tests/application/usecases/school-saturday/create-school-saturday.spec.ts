@@ -3,7 +3,7 @@ import {
   CreateSchoolSaturdayUseCaseInputDTO,
   CreateSchoolSaturdayUseCaseOutputDTO
 } from '@/application/usecases/school-saturday/create/create-school-saturday.usecase.dto';
-import { ReferencedDayOfWeek } from '@/domain/school-saturday/entity/school-saturday';
+import { DayOfWeek } from '@/domain/school-saturday/entity/school-saturday';
 import { CreateSchoolSaturdayRepository } from '@/domain/school-saturday/repository/create-school-saturday';
 import { FindSchoolSaturdayByDateRepository } from '@/domain/school-saturday/repository/find-school-saturday-by-date';
 import { describe, expect, it, vi } from 'vitest';
@@ -43,7 +43,7 @@ const makeSut = (): SutTypes => {
 
 const makeFakeCreateSchoolSaturdayUseCaseInputDTO =
   (): CreateSchoolSaturdayUseCaseInputDTO => ({
-    referringTo: 'MONDAY',
+    dayOfWeek: 'MONDAY',
     date: new Date(2101, 0, 1)
   });
 
@@ -52,19 +52,19 @@ describe('CreateSchoolSaturdayUseCase', () => {
     const { sut } = makeSut();
 
     const promise = sut.execute({
-      referringTo: 'INVALID' as ReferencedDayOfWeek,
+      dayOfWeek: 'INVALID' as DayOfWeek,
       date: new Date(2101, 0, 1)
     });
     await expect(promise).rejects.toThrow(
-      'referringTo must be one of: MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY'
+      'dayOfWeek must be one of: MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY'
     );
 
     const promise2 = sut.execute({
-      referringTo: '' as ReferencedDayOfWeek,
+      dayOfWeek: '' as DayOfWeek,
       date: new Date(2101, 0, 1)
     });
     await expect(promise2).rejects.toThrow(
-      'referringTo must be one of: MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY'
+      'dayOfWeek must be one of: MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY'
     );
   });
 
@@ -72,7 +72,7 @@ describe('CreateSchoolSaturdayUseCase', () => {
     const { sut } = makeSut();
 
     const promise = sut.execute({
-      referringTo: 'MONDAY',
+      dayOfWeek: 'MONDAY',
       date: new Date(2023, 11, 17) // 17/12/2023 is a past date is not a saturday
     });
 
@@ -124,7 +124,7 @@ describe('CreateSchoolSaturdayUseCase', () => {
     expect(createSchoolSaturdayRepositoryMock.create).toHaveBeenCalledWith(
       expect.objectContaining({
         id: expect.any(String),
-        referringTo: input.referringTo,
+        dayOfWeek: input.dayOfWeek,
         date: input.date
       })
     );
@@ -151,7 +151,7 @@ describe('CreateSchoolSaturdayUseCase', () => {
     expect(schoolSaturday).toEqual(
       expect.objectContaining<CreateSchoolSaturdayUseCaseOutputDTO>({
         id: expect.any(String),
-        referringTo: input.referringTo,
+        dayOfWeek: input.dayOfWeek,
         date: input.date,
         createdAt: expect.any(Date),
         updatedAt: expect.any(Date)

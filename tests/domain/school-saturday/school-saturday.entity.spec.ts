@@ -1,5 +1,5 @@
 import {
-  ReferencedDayOfWeek,
+  DayOfWeek,
   SchoolSaturday,
   SchoolSaturdayEntityProps
 } from '@/domain/school-saturday/entity/school-saturday';
@@ -8,7 +8,7 @@ import { fake } from '../../utils/fake-data-generator';
 
 const makeFakeSchoolSaturdayProps = (): SchoolSaturdayEntityProps => ({
   id: fake.uuid(),
-  referringTo: 'MONDAY',
+  dayOfWeek: 'MONDAY',
   date: new Date(2101, 0, 1), // is a saturday
   createdAt: new Date(),
   updatedAt: new Date()
@@ -28,13 +28,13 @@ describe('SchoolSaturday Entity', () => {
     expect(schoolSaturday.updatedAt).toBeInstanceOf(Date);
   });
 
-  it('should validate referringTo correctly', () => {
+  it('should validate dayOfWeek correctly', () => {
     const fakeSchoolSaturdayProps = makeFakeSchoolSaturdayProps();
     expect(() => {
-      fakeSchoolSaturdayProps.referringTo = 'invalid' as ReferencedDayOfWeek;
+      fakeSchoolSaturdayProps.dayOfWeek = 'invalid' as DayOfWeek;
       new SchoolSaturday(fakeSchoolSaturdayProps);
     }).toThrow(
-      'referringTo must be one of: MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY'
+      'dayOfWeek must be one of: MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY'
     );
   });
 

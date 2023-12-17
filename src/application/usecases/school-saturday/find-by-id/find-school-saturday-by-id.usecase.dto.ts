@@ -4,7 +4,7 @@ export type FindSchoolSaturdayByIdInputDTO = {
 
 export type FindSchoolSaturdayByIdOutputDTO = {
   id: string;
-  referringTo: string;
+  dayOfWeek: string;
   date: Date;
   createdAt: Date;
   updatedAt: Date;

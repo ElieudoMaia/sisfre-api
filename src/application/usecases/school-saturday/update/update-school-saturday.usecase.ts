@@ -25,14 +25,14 @@ export class UpdateSchoolSaturdayUseCase {
 
     const schoolSaturday = new SchoolSaturday({
       id: input.id,
-      referringTo: input.referringTo,
+      dayOfWeek: input.dayOfWeek,
       date: input.date,
       createdAt: savedSchoolSaturday.createdAt,
       updatedAt: new Date()
     });
 
     const nothingChanged =
-      savedSchoolSaturday.referringTo === schoolSaturday.referringTo &&
+      savedSchoolSaturday.dayOfWeek === schoolSaturday.dayOfWeek &&
       savedSchoolSaturday.date === schoolSaturday.date;
     if (nothingChanged) {
       throw new InvalidResourceError('nothing changed');
@@ -55,7 +55,7 @@ export class UpdateSchoolSaturdayUseCase {
 
     return {
       id: schoolSaturday.id,
-      referringTo: schoolSaturday.referringTo,
+      dayOfWeek: schoolSaturday.dayOfWeek,
       date: schoolSaturday.date,
       createdAt: schoolSaturday.createdAt,
       updatedAt: schoolSaturday.updatedAt

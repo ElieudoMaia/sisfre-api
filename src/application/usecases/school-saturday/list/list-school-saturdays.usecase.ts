@@ -27,7 +27,7 @@ export class ListSchoolSaturdaysUseCase
 
     const usersDTO = schoolSaturdays.map((schoolSaturday) => ({
       id: schoolSaturday.id,
-      referringTo: schoolSaturday.referringTo,
+      dayOfWeek: schoolSaturday.dayOfWeek,
       date: schoolSaturday.date,
       createdAt: schoolSaturday.createdAt,
       updatedAt: schoolSaturday.updatedAt

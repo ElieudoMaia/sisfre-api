@@ -65,7 +65,7 @@ describe('FindSchoolSaturdayByIdUseCase', () => {
     const schoolSaturday = await sut.execute({ id });
     expect(schoolSaturday).toEqual({
       id: schoolSaturday.id,
-      referringTo: schoolSaturday.referringTo,
+      dayOfWeek: schoolSaturday.dayOfWeek,
       date: schoolSaturday.date,
       createdAt: schoolSaturday.createdAt,
       updatedAt: schoolSaturday.updatedAt,

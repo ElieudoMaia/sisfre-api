@@ -79,7 +79,7 @@ describe('ListUsersUseCase', () => {
     expect(result.schoolSaturdays[0]).toEqual(
       expect.objectContaining({
         id: schoolSaturday1.id,
-        referringTo: schoolSaturday1.referringTo,
+        dayOfWeek: schoolSaturday1.dayOfWeek,
         date: schoolSaturday1.date,
         createdAt: schoolSaturday1.createdAt,
         updatedAt: schoolSaturday1.updatedAt
@@ -88,7 +88,7 @@ describe('ListUsersUseCase', () => {
     expect(result.schoolSaturdays[1]).toEqual(
       expect.objectContaining({
         id: schoolSaturday2.id,
-        referringTo: schoolSaturday2.referringTo,
+        dayOfWeek: schoolSaturday2.dayOfWeek,
         date: schoolSaturday2.date,
         createdAt: schoolSaturday2.createdAt,
         updatedAt: schoolSaturday2.updatedAt

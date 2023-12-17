@@ -44,7 +44,7 @@ export const makeFakeSchoolSaturday = ({
 } = {}) => {
   return new SchoolSaturday({
     id,
-    referringTo: 'MONDAY',
+    dayOfWeek: 'MONDAY',
     date: new Date(2101, 0, 1),
     createdAt
   });

@@ -26,7 +26,7 @@ export class FindSchoolSaturdayByIdUseCase
 
     return {
       id: schoolSaturday.id,
-      referringTo: schoolSaturday.referringTo,
+      dayOfWeek: schoolSaturday.dayOfWeek,
       date: schoolSaturday.date,
       createdAt: schoolSaturday.createdAt,
       updatedAt: schoolSaturday.updatedAt
