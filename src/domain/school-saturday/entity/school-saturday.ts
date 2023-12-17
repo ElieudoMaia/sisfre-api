@@ -1,5 +1,5 @@
 import { Entity } from '@/domain/@shared/entity/entity.abstract';
-import { SchoolSatudayValidatorFactory } from '../factories/school-saturday.validator.factory';
+import { SchoolSaturdayValidatorFactory } from '../factories/school-saturday.validator.factory';
 
 export type ReferencedDayOfWeek =
   | 'MONDAY'
@@ -16,10 +16,10 @@ export type SchoolSaturdayEntityProps = {
   updatedAt?: Date;
 };
 
-export class SchoolSatuday extends Entity {
+export class SchoolSaturday extends Entity {
   private _referringTo: ReferencedDayOfWeek;
   private _date: Date;
-  private validator = SchoolSatudayValidatorFactory.create();
+  private validator = SchoolSaturdayValidatorFactory.create();
 
   constructor(props: SchoolSaturdayEntityProps) {
     super(props.id, props.createdAt, props.updatedAt);

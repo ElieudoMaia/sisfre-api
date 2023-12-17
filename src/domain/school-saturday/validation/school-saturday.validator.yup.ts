@@ -1,7 +1,7 @@
 import * as yup from 'yup';
 
 import { ValidatorInterface } from '@/domain/@shared/validation/validator.interface';
-import { SchoolSatuday } from '../entity/school-saturday';
+import { SchoolSaturday } from '../entity/school-saturday';
 
 const validReferencedDayOfWeek = [
   'MONDAY',
@@ -12,9 +12,9 @@ const validReferencedDayOfWeek = [
 ];
 
 export class SchoolSaturdayYupValidator
-  implements ValidatorInterface<SchoolSatuday>
+  implements ValidatorInterface<SchoolSaturday>
 {
-  validate(schoolSatuday: SchoolSatuday): void {
+  validate(schoolSaturday: SchoolSaturday): void {
     try {
       const schema = yup.object().shape({
         id: yup
@@ -41,11 +41,11 @@ export class SchoolSaturdayYupValidator
           .min(new Date(), 'date must not be today or a past date')
           .required('date is required')
       });
-      schema.validateSync(schoolSatuday, { abortEarly: false });
+      schema.validateSync(schoolSaturday, { abortEarly: false });
     } catch (error) {
       const e = error as yup.ValidationError;
       e.errors.forEach((err) => {
-        schoolSatuday.notification.addError({
+        schoolSaturday.notification.addError({
           message: err,
           context: 'SchoolSaturday'
         });
