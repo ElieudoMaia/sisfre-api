@@ -5,6 +5,7 @@ import {
 import { CreateSchoolSaturdayRepository } from '@/domain/school-saturday/repository/create-school-saturday';
 import { FindSchoolSaturdayByDateRepository } from '@/domain/school-saturday/repository/find-school-saturday-by-date';
 import { FindSchoolSaturdayByIdRepository } from '@/domain/school-saturday/repository/find-school-saturday-by-id';
+import { UpdateSchoolSaturdayRepository } from '@/domain/school-saturday/repository/update-school-saturday';
 import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
@@ -13,7 +14,8 @@ export class SchoolSaturdayRepository
   implements
     CreateSchoolSaturdayRepository,
     FindSchoolSaturdayByDateRepository,
-    FindSchoolSaturdayByIdRepository
+    FindSchoolSaturdayByIdRepository,
+    UpdateSchoolSaturdayRepository
 {
   async create(input: SchoolSaturday): Promise<void> {
     await prisma.schoolSaturday.create({
@@ -58,6 +60,17 @@ export class SchoolSaturdayRepository
       date: dbSchoolSaturday.date,
       createdAt: dbSchoolSaturday.created_at,
       updatedAt: dbSchoolSaturday.updated_at
+    });
+  }
+
+  async update(input: SchoolSaturday): Promise<void> {
+    await prisma.schoolSaturday.update({
+      where: { id: input.id },
+      data: {
+        day_of_week: input.dayOfWeek,
+        date: input.date,
+        updated_at: input.updatedAt
+      }
     });
   }
 }
