@@ -5,6 +5,11 @@ import {
 import { CreateSchoolSaturdayRepository } from '@/domain/school-saturday/repository/create-school-saturday';
 import { FindSchoolSaturdayByDateRepository } from '@/domain/school-saturday/repository/find-school-saturday-by-date';
 import { FindSchoolSaturdayByIdRepository } from '@/domain/school-saturday/repository/find-school-saturday-by-id';
+import {
+  ListSchoolSaturdaysRepository,
+  ListSchoolSaturdaysRepositoryInput,
+  ListSchoolSaturdaysRepositoryOutput
+} from '@/domain/school-saturday/repository/list-school-saturdays';
 import { UpdateSchoolSaturdayRepository } from '@/domain/school-saturday/repository/update-school-saturday';
 import { PrismaClient } from '@prisma/client';
 
@@ -15,7 +20,8 @@ export class SchoolSaturdayRepository
     CreateSchoolSaturdayRepository,
     FindSchoolSaturdayByDateRepository,
     FindSchoolSaturdayByIdRepository,
-    UpdateSchoolSaturdayRepository
+    UpdateSchoolSaturdayRepository,
+    ListSchoolSaturdaysRepository
 {
   async create(input: SchoolSaturday): Promise<void> {
     await prisma.schoolSaturday.create({
@@ -27,6 +33,43 @@ export class SchoolSaturdayRepository
         updated_at: input.updatedAt
       }
     });
+  }
+
+  async findAll(
+    params: ListSchoolSaturdaysRepositoryInput
+  ): Promise<ListSchoolSaturdaysRepositoryOutput> {
+    const { pageNumber, pageSize } = params;
+
+    let skip: number | undefined;
+    let take: number | undefined;
+    if (pageNumber && pageSize) {
+      skip = (pageNumber - 1) * pageSize;
+      take = pageSize;
+    }
+
+    const [schoolSaturdays, total] = await Promise.all([
+      prisma.schoolSaturday.findMany({
+        skip,
+        take
+      }),
+      prisma.schoolSaturday.count()
+    ]);
+
+    const schoolSaturdaysDTO = schoolSaturdays.map(
+      (schoolSaturday) =>
+        new SchoolSaturday({
+          id: schoolSaturday.id,
+          dayOfWeek: schoolSaturday.day_of_week as DayOfWeek,
+          date: schoolSaturday.date,
+          createdAt: schoolSaturday.created_at,
+          updatedAt: schoolSaturday.updated_at
+        })
+    );
+
+    return {
+      quantity: total,
+      schoolSaturdays: schoolSaturdaysDTO
+    };
   }
 
   async findByDate(date: Date): Promise<SchoolSaturday | null | undefined> {
