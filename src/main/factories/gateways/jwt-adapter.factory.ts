@@ -1,6 +1,6 @@
 import { JwtAdapter } from '@/infrastructure/user/criptography/jwt-adapter';
 
 export const makeJwtAdapter = (): JwtAdapter => {
-  const secret = 'temporarysecret';
+  const secret = process.env.JWT_SECRET ?? 'secret';
   return new JwtAdapter(secret);
 };

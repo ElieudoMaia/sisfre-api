@@ -11,6 +11,7 @@ services:
       - '3030:3030'
     environment:
       - DATABASE_URL=postgres://postgres:postgres@postgres_container:5432/sisfre?schema=public
+      - JWT_SECRET=secret
       - NODE_ENV=development
       - PORT=3030
     volumes:
