@@ -1,12 +1,13 @@
 import { Entity } from '@/domain/@shared/entity/entity.abstract';
 import { SchoolSaturdayValidatorFactory } from '../factories/school-saturday.validator.factory';
 
-export type DayOfWeek =
-  | 'MONDAY'
-  | 'TUESDAY'
-  | 'WEDNESDAY'
-  | 'THURSDAY'
-  | 'FRIDAY';
+export enum DayOfWeek {
+  MONDAY = 'MONDAY',
+  TUESDAY = 'TUESDAY',
+  WEDNESDAY = 'WEDNESDAY',
+  THURSDAY = 'THURSDAY',
+  FRIDAY = 'FRIDAY'
+}
 
 export type SchoolSaturdayEntityProps = {
   id?: string;

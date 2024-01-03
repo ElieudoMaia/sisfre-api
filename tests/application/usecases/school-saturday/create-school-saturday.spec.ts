@@ -43,7 +43,7 @@ const makeSut = (): SutTypes => {
 
 const makeFakeCreateSchoolSaturdayUseCaseInputDTO =
   (): CreateSchoolSaturdayUseCaseInputDTO => ({
-    dayOfWeek: 'MONDAY',
+    dayOfWeek: DayOfWeek.MONDAY,
     date: new Date(2101, 0, 1)
   });
 
@@ -72,7 +72,7 @@ describe('CreateSchoolSaturdayUseCase', () => {
     const { sut } = makeSut();
 
     const promise = sut.execute({
-      dayOfWeek: 'MONDAY',
+      dayOfWeek: DayOfWeek.MONDAY,
       date: new Date(2023, 11, 17) // 17/12/2023 is a past date is not a saturday
     });
 
