@@ -3,47 +3,48 @@ import { ListSchoolSaturdaysRepository } from '@/domain/school-saturday/reposito
 import { describe, expect, it, vi } from 'vitest';
 import { makeFakeSchoolSaturday } from '../../../@shared/fakes';
 
-const makeListSchoolSatudaysRepository = (): ListSchoolSaturdaysRepository => ({
-  findAll: vi.fn().mockResolvedValue({ schoolSaturdays: [], quantity: 0 })
-});
+const makeListSchoolSaturdaysRepository =
+  (): ListSchoolSaturdaysRepository => ({
+    findAll: vi.fn().mockResolvedValue({ schoolSaturdays: [], quantity: 0 })
+  });
 
 type SutTypes = {
   sut: ListSchoolSaturdaysUseCase;
-  listSchoolSatudaysRepository: ListSchoolSaturdaysRepository;
+  listSchoolSaturdaysRepository: ListSchoolSaturdaysRepository;
 };
 
 const makeSut = (): SutTypes => {
-  const listSchoolSatudaysRepository = makeListSchoolSatudaysRepository();
-  const sut = new ListSchoolSaturdaysUseCase(listSchoolSatudaysRepository);
+  const listSchoolSaturdaysRepository = makeListSchoolSaturdaysRepository();
+  const sut = new ListSchoolSaturdaysUseCase(listSchoolSaturdaysRepository);
   return {
     sut,
-    listSchoolSatudaysRepository
+    listSchoolSaturdaysRepository
   };
 };
 
 describe('ListUsersUseCase', () => {
-  it('should call listSchoolSatudaysRepository with correct params', async () => {
-    const { sut, listSchoolSatudaysRepository } = makeSut();
+  it('should call listSchoolSaturdaysRepository with correct params', async () => {
+    const { sut, listSchoolSaturdaysRepository } = makeSut();
     await sut.execute({});
-    expect(listSchoolSatudaysRepository.findAll).toHaveBeenCalledWith({});
+    expect(listSchoolSaturdaysRepository.findAll).toHaveBeenCalledWith({});
     await sut.execute({ pageNumber: 1 });
-    expect(listSchoolSatudaysRepository.findAll).toHaveBeenCalledWith({
+    expect(listSchoolSaturdaysRepository.findAll).toHaveBeenCalledWith({
       pageNumber: 1
     });
     await sut.execute({ pageSize: 10 });
-    expect(listSchoolSatudaysRepository.findAll).toHaveBeenCalledWith({
+    expect(listSchoolSaturdaysRepository.findAll).toHaveBeenCalledWith({
       pageSize: 10
     });
     await sut.execute({ pageNumber: 1, pageSize: 10 });
-    expect(listSchoolSatudaysRepository.findAll).toHaveBeenCalledWith({
+    expect(listSchoolSaturdaysRepository.findAll).toHaveBeenCalledWith({
       pageNumber: 1,
       pageSize: 10
     });
   });
 
-  it('should throw if listSchoolSatudaysRepository throws', async () => {
-    const { sut, listSchoolSatudaysRepository } = makeSut();
-    vi.spyOn(listSchoolSatudaysRepository, 'findAll').mockRejectedValueOnce(
+  it('should throw if listSchoolSaturdaysRepository throws', async () => {
+    const { sut, listSchoolSaturdaysRepository } = makeSut();
+    vi.spyOn(listSchoolSaturdaysRepository, 'findAll').mockRejectedValueOnce(
       new Error('repo error')
     );
     await expect(sut.execute({})).rejects.toThrow('repo error');
@@ -61,10 +62,10 @@ describe('ListUsersUseCase', () => {
   });
 
   it('should return the correct data', async () => {
-    const { sut, listSchoolSatudaysRepository } = makeSut();
+    const { sut, listSchoolSaturdaysRepository } = makeSut();
     const schoolSaturday1 = makeFakeSchoolSaturday();
     const schoolSaturday2 = makeFakeSchoolSaturday();
-    vi.spyOn(listSchoolSatudaysRepository, 'findAll').mockResolvedValueOnce({
+    vi.spyOn(listSchoolSaturdaysRepository, 'findAll').mockResolvedValueOnce({
       schoolSaturdays: [schoolSaturday1, schoolSaturday2],
       quantity: 2
     });
