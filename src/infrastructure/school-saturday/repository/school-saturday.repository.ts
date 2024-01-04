@@ -3,6 +3,7 @@ import {
   SchoolSaturday
 } from '@/domain/school-saturday/entity/school-saturday';
 import { CreateSchoolSaturdayRepository } from '@/domain/school-saturday/repository/create-school-saturday';
+import { DeleteSchoolSaturdayRepository } from '@/domain/school-saturday/repository/delete-school-saturday';
 import { FindSchoolSaturdayByDateRepository } from '@/domain/school-saturday/repository/find-school-saturday-by-date';
 import { FindSchoolSaturdayByIdRepository } from '@/domain/school-saturday/repository/find-school-saturday-by-id';
 import {
@@ -21,7 +22,8 @@ export class SchoolSaturdayRepository
     FindSchoolSaturdayByDateRepository,
     FindSchoolSaturdayByIdRepository,
     UpdateSchoolSaturdayRepository,
-    ListSchoolSaturdaysRepository
+    ListSchoolSaturdaysRepository,
+    DeleteSchoolSaturdayRepository
 {
   async create(input: SchoolSaturday): Promise<void> {
     await prisma.schoolSaturday.create({
@@ -114,6 +116,12 @@ export class SchoolSaturdayRepository
         date: input.date,
         updated_at: input.updatedAt
       }
+    });
+  }
+
+  async delete(id: string): Promise<void> {
+    await prisma.schoolSaturday.delete({
+      where: { id }
     });
   }
 }

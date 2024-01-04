@@ -1,5 +1,6 @@
 import { FastifyInstance } from 'fastify';
 import { makeCreateSchoolSaturdayController } from '../factories/controllers/school-saturday/create-school-saturday-controller.factory';
+import { makeDeleteSchoolSaturdayControllerFactory } from '../factories/controllers/school-saturday/delete-school-saturday-controller.factory';
 import { makeFindSchoolSaturdayByIdController } from '../factories/controllers/school-saturday/find-school-satuday-controller.factory';
 import { makeListSchoolSaturdaysController } from '../factories/controllers/school-saturday/list-school-saturdays-controller.factory';
 import { makeUpdateSchoolSaturdayController } from '../factories/controllers/school-saturday/update-school-saturday-controller.factory';
@@ -10,6 +11,8 @@ export default (server: FastifyInstance): void => {
   const ListSchoolSaturdaysController = makeListSchoolSaturdaysController();
   const FindSchoolSaturdayByIdController =
     makeFindSchoolSaturdayByIdController();
+  const DeleteSchoolSaturdayController =
+    makeDeleteSchoolSaturdayControllerFactory();
 
   server.post(
     '/school-saturdays',
@@ -28,5 +31,9 @@ export default (server: FastifyInstance): void => {
     FindSchoolSaturdayByIdController.handle.bind(
       FindSchoolSaturdayByIdController
     )
+  );
+  server.delete(
+    '/school-saturdays/:id',
+    DeleteSchoolSaturdayController.handle.bind(DeleteSchoolSaturdayController)
   );
 };
