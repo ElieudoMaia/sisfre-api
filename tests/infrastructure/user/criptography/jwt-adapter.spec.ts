@@ -26,7 +26,9 @@ describe('JwtAdapter', () => {
       const signSpy = vi.spyOn(jwt, 'sign');
       const payload = makeFakePayload();
       await sut.generate(payload);
-      expect(signSpy).toHaveBeenCalledWith(payload, 'secret');
+      expect(signSpy).toHaveBeenCalledWith(payload, 'secret', {
+        expiresIn: '1d'
+      });
     });
 
     test('Should return a token on sign success', async () => {
@@ -45,6 +47,34 @@ describe('JwtAdapter', () => {
       });
       const promise = sut.generate(makeFakePayload());
       await expect(promise).rejects.toThrow('any_error');
+    });
+  });
+
+  describe('decrypt()', () => {
+    test('Should call verify with correct values', async () => {
+      const { sut } = makeSut();
+      const verifySpy = vi
+        .spyOn(jwt, 'verify')
+        .mockImplementationOnce(() => {});
+      sut.decrypt('any_token');
+      expect(verifySpy).toHaveBeenCalledWith('any_token', 'secret');
+    });
+
+    test('Should return a value on verify success', async () => {
+      const { sut } = makeSut();
+      vi.spyOn(jwt, 'verify').mockImplementationOnce(
+        () => 'fake_resolved_value'
+      );
+      const value = sut.decrypt('any_token');
+      expect(value).toBe('fake_resolved_value');
+    });
+
+    test('Should throws if verify throws', () => {
+      const { sut } = makeSut();
+      vi.spyOn(jwt, 'verify').mockImplementationOnce(() => {
+        throw new Error('any_error');
+      });
+      expect(() => sut.decrypt('any_token')).toThrow('any_error');
     });
   });
 });

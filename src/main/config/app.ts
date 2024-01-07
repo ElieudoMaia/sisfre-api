@@ -2,9 +2,12 @@ import cors from '@fastify/cors';
 import fastifySwagger from '@fastify/swagger';
 import fastifySwaggerUi from '@fastify/swagger-ui';
 import fastify from 'fastify';
+import { makeAuthMiddleware } from '../factories/middlewares/auth-middleware.factory';
 import setupRoutes from './routes';
 
 const app = fastify({ logger: true });
+
+const AuthMiddleware = makeAuthMiddleware();
 
 app.register(cors, {
   origin: true,
@@ -218,6 +221,8 @@ app.register(fastifySwaggerUi, {
     layout: 'BaseLayout'
   }
 });
+
+app.addHook('preHandler', AuthMiddleware.handle.bind(AuthMiddleware));
 
 app.get('/health', async () => ({
   service: 'SisFre API',
