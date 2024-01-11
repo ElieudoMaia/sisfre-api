@@ -123,6 +123,28 @@ export const swaggerRoutesDocumentation: FastifyDynamicSwaggerOptions = {
               }
             }
           }
+        },
+        UpdateSchoolSaturday: {
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                properties: {
+                  date: { type: 'string' },
+                  dayOfWeek: {
+                    type: 'string',
+                    enum: [
+                      'MONDAY',
+                      'TUESDAY',
+                      'WEDNESDAY',
+                      'THURSDAY',
+                      'FRIDAY'
+                    ]
+                  }
+                }
+              }
+            }
+          }
         }
       },
       responses: {
@@ -716,6 +738,85 @@ export const swaggerRoutesDocumentation: FastifyDynamicSwaggerOptions = {
             },
             401: {
               description: 'Não autorizado',
+              $ref: '#/components/responses/UnauthorizedError'
+            }
+          }
+        }
+      },
+      '/school-saturdays/{id}': {
+        get: {
+          tags: ['Sábado Letivo'],
+          summary: 'Buscar sábado letivo pelo ID',
+          description: 'Buscar um sábado letivo cadastrado no sistema',
+          operationId: 'getSchoolSaturday',
+          parameters: [
+            {
+              name: 'id',
+              in: 'path',
+              description: 'ID do sábado letivo',
+              required: true,
+              schema: {
+                type: 'string'
+              }
+            }
+          ],
+          responses: {
+            200: {
+              description: 'Sucesso',
+              content: {
+                'application/json': {
+                  schema: {
+                    $ref: '#/components/schemas/SchoolSaturday'
+                  }
+                }
+              }
+            },
+            500: {
+              description: 'Erro interno no servidor',
+              $ref: '#/components/responses/ServerError'
+            },
+            401: {
+              description: 'Unauthorized',
+              $ref: '#/components/responses/UnauthorizedError'
+            }
+          }
+        },
+        put: {
+          tags: ['Sábado Letivo'],
+          summary: 'Atualizar sábado letivo',
+          description: 'Atualizar informações do sábado letivo.',
+          operationId: 'updateSchoolSaturday',
+          parameters: [
+            {
+              name: 'id',
+              in: 'path',
+              description: 'ID do sábado letivo',
+              required: true,
+              schema: {
+                type: 'string'
+              }
+            }
+          ],
+          requestBody: {
+            $ref: '#/components/requestBodies/UpdateSchoolSaturday'
+          },
+          responses: {
+            200: {
+              description: 'Sábado letivo atualizado com sucesso',
+              content: {
+                'application/json': {
+                  schema: {
+                    $ref: '#/components/schemas/SchoolSaturday'
+                  }
+                }
+              }
+            },
+            500: {
+              description: 'Erro interno no servidor',
+              $ref: '#/components/responses/ServerError'
+            },
+            401: {
+              description: 'Unauthorized',
               $ref: '#/components/responses/UnauthorizedError'
             }
           }
