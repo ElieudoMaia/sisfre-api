@@ -227,6 +227,81 @@ export const swaggerRoutesDocumentation: FastifyDynamicSwaggerOptions = {
         }
       },
       '/courses': {
+        get: {
+          tags: ['Curso'],
+          summary: 'Buscar cursos',
+          description: 'Buscar os cursos cadastrados no sistema',
+          operationId: 'listCourses',
+          parameters: [
+            {
+              name: 'pageNumber',
+              in: 'query',
+              description: 'Página a ser exibida',
+              required: false,
+              schema: {
+                type: 'number'
+              }
+            },
+            {
+              name: 'pageSize',
+              in: 'query',
+              description: 'Tamanho da página',
+              required: false,
+              schema: {
+                type: 'number'
+              }
+            }
+          ],
+          responses: {
+            200: {
+              description: 'Sucesso ao buscar cursos',
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'object',
+                    properties: {
+                      courses: {
+                        type: 'array',
+                        items: {
+                          type: 'object',
+                          properties: {
+                            id: { type: 'string' },
+                            name: { type: 'string' },
+                            type: {
+                              type: 'string',
+                              enum: ['GRADUATION', 'INTEGRATED', 'TECHNICAL']
+                            },
+                            acronym: { type: 'string' },
+                            duration: { type: 'number' },
+                            coordinator: {
+                              type: 'object',
+                              properties: {
+                                id: { type: 'string' },
+                                name: { type: 'string' },
+                                email: { type: 'string' }
+                              }
+                            }
+                          }
+                        }
+                      },
+                      quantity: { type: 'number' },
+                      pageNumber: { type: 'number' },
+                      pageSize: { type: 'number' }
+                    }
+                  }
+                }
+              }
+            },
+            500: {
+              description: 'Erro interno no servidor',
+              $ref: '#/components/responses/ServerError'
+            },
+            401: {
+              description: 'Unauthorized',
+              $ref: '#/components/responses/UnauthorizedError'
+            }
+          }
+        },
         post: {
           tags: ['Curso'],
           summary: 'Criar um novo curso',
@@ -244,6 +319,64 @@ export const swaggerRoutesDocumentation: FastifyDynamicSwaggerOptions = {
                   schema: {
                     type: 'object',
                     $ref: '#/components/schemas/Course'
+                  }
+                }
+              }
+            },
+            500: {
+              description: 'Erro interno no servidor',
+              $ref: '#/components/responses/ServerError'
+            },
+            401: {
+              description: 'Unauthorized',
+              $ref: '#/components/responses/UnauthorizedError'
+            }
+          }
+        }
+      },
+      '/courses/{id}': {
+        get: {
+          tags: ['Curso'],
+          summary: 'Buscar curso pelo ID',
+          description: 'Buscar um curso cadastrado no sistema',
+          operationId: 'getCourse',
+          parameters: [
+            {
+              name: 'id',
+              in: 'path',
+              description: 'ID do curso',
+              required: true,
+              schema: {
+                type: 'string'
+              }
+            }
+          ],
+          responses: {
+            200: {
+              description: 'Sucesso',
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'object',
+                    properties: {
+                      id: { type: 'string' },
+                      name: { type: 'string' },
+                      type: {
+                        type: 'string',
+                        enum: ['GRADUATION', 'INTEGRATED', 'TECHNICAL']
+                      },
+                      coordinator: {
+                        type: 'object',
+                        properties: {
+                          id: { type: 'string' },
+                          name: { type: 'string' }
+                        }
+                      },
+                      acronym: { type: 'string' },
+                      duration: { type: 'number' },
+                      createdAt: { type: 'string' },
+                      updatedAt: { type: 'string' }
+                    }
                   }
                 }
               }
