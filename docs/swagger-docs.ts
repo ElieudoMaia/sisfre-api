@@ -83,6 +83,24 @@ export const swaggerRoutesDocumentation: FastifyDynamicSwaggerOptions = {
               }
             }
           }
+        },
+        UpdateUser: {
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                properties: {
+                  name: { type: 'string' },
+                  nameAbbreviation: { type: 'string' },
+                  email: { type: 'string' },
+                  role: {
+                    type: 'string',
+                    enum: ['ADMINISTRATOR', 'COORDINATOR', 'TEACHER']
+                  }
+                }
+              }
+            }
+          }
         }
       },
       responses: {
@@ -286,6 +304,53 @@ export const swaggerRoutesDocumentation: FastifyDynamicSwaggerOptions = {
                 'application/json': {
                   schema: {
                     $ref: '#/components/schemas/User'
+                  }
+                }
+              }
+            },
+            500: {
+              description: 'Erro interno no servidor',
+              $ref: '#/components/responses/ServerError'
+            },
+            401: {
+              description: 'Unauthorized',
+              $ref: '#/components/responses/UnauthorizedError'
+            }
+          }
+        },
+        put: {
+          tags: ['Usuário'],
+          summary: 'Atualizar usuário',
+          description: 'Atualizar dados do usuário.',
+          operationId: 'updateUser',
+          parameters: [
+            {
+              name: 'id',
+              in: 'path',
+              description: 'ID do usuário',
+              required: true,
+              schema: {
+                type: 'string'
+              }
+            }
+          ],
+          requestBody: {
+            $ref: '#/components/requestBodies/UpdateUser'
+          },
+          responses: {
+            200: {
+              description: 'Usuário atualizado com sucesso',
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'object',
+                    properties: {
+                      id: { type: 'string' },
+                      name: { type: 'string' },
+                      nameAbbreviation: { type: 'string' },
+                      email: { type: 'string' },
+                      role: { type: 'string' }
+                    }
                   }
                 }
               }
