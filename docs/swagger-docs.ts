@@ -63,6 +63,26 @@ export const swaggerRoutesDocumentation: FastifyDynamicSwaggerOptions = {
               }
             }
           }
+        },
+        CreateUser: {
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                properties: {
+                  name: { type: 'string' },
+                  nameAbbreviation: { type: 'string' },
+                  email: { type: 'string' },
+                  password: { type: 'string' },
+                  passwordConfirmation: { type: 'string' },
+                  role: {
+                    type: 'string',
+                    enum: ['ADMINISTRATOR', 'COORDINATOR', 'TEACHER']
+                  }
+                }
+              }
+            }
+          }
         }
       },
       responses: {
@@ -201,6 +221,42 @@ export const swaggerRoutesDocumentation: FastifyDynamicSwaggerOptions = {
             },
             401: {
               description: 'Unauthorized',
+              $ref: '#/components/responses/UnauthorizedError'
+            }
+          }
+        },
+        post: {
+          tags: ['Usuário'],
+          summary: 'Criar um novo usuário',
+          description: 'Criar um novo usuário para o sistema.',
+          operationId: 'createUser',
+          requestBody: {
+            $ref: '#/components/requestBodies/CreateUser'
+          },
+          responses: {
+            200: {
+              description: 'Usuário criado com sucesso',
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'object',
+                    properties: {
+                      id: { type: 'string' },
+                      name: { type: 'string' },
+                      nameAbbreviation: { type: 'string' },
+                      email: { type: 'string' },
+                      role: { type: 'string' }
+                    }
+                  }
+                }
+              }
+            },
+            500: {
+              description: 'Erro interno no servidor',
+              $ref: '#/components/responses/ServerError'
+            },
+            401: {
+              description: 'Não autorizado',
               $ref: '#/components/responses/UnauthorizedError'
             }
           }
