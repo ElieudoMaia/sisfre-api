@@ -44,6 +44,25 @@ export const swaggerRoutesDocumentation: FastifyDynamicSwaggerOptions = {
               }
             }
           }
+        },
+        UpdateCourse: {
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                properties: {
+                  name: { type: 'string' },
+                  type: {
+                    type: 'string',
+                    enum: ['GRADUATION', 'INTEGRATED', 'TECHNICAL']
+                  },
+                  coordinatorId: { type: 'string' },
+                  acronym: { type: 'string' },
+                  duration: { type: 'number' }
+                }
+              }
+            }
+          }
         }
       },
       responses: {
@@ -376,6 +395,58 @@ export const swaggerRoutesDocumentation: FastifyDynamicSwaggerOptions = {
                       duration: { type: 'number' },
                       createdAt: { type: 'string' },
                       updatedAt: { type: 'string' }
+                    }
+                  }
+                }
+              }
+            },
+            500: {
+              description: 'Erro interno no servidor',
+              $ref: '#/components/responses/ServerError'
+            },
+            401: {
+              description: 'Unauthorized',
+              $ref: '#/components/responses/UnauthorizedError'
+            }
+          }
+        },
+        put: {
+          tags: ['Curso'],
+          summary: 'Atualizar curso',
+          description:
+            'Atualizar dados do curso. Apenas usuários com permissão de administrador podem realizar esta operação',
+          operationId: 'updateCourse',
+          parameters: [
+            {
+              name: 'id',
+              in: 'path',
+              description: 'ID do curso',
+              required: true,
+              schema: {
+                type: 'string'
+              }
+            }
+          ],
+          requestBody: {
+            $ref: '#/components/requestBodies/UpdateCourse'
+          },
+          responses: {
+            200: {
+              description: 'Curso atualizado com sucesso',
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'object',
+                    properties: {
+                      id: { type: 'string' },
+                      name: { type: 'string' },
+                      type: {
+                        type: 'string',
+                        enum: ['GRADUATION', 'INTEGRATED', 'TECHNICAL']
+                      },
+                      coordinatorId: { type: 'string' },
+                      acronym: { type: 'string' },
+                      duration: { type: 'number' }
                     }
                   }
                 }
