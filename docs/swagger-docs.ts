@@ -583,8 +583,80 @@ export const swaggerRoutesDocumentation: FastifyDynamicSwaggerOptions = {
             }
           }
         }
+      },
+      '/school-saturdays': {
+        get: {
+          tags: ['Sábado Letivo'],
+          summary: 'Buscar sábados letivos',
+          description: 'Buscar os sábados letivos cadastrados no sistema',
+          operationId: 'listSchoolSaturdays',
+          parameters: [
+            {
+              name: 'pageNumber',
+              in: 'query',
+              description: 'Página a ser exibida',
+              required: false,
+              schema: {
+                type: 'number'
+              }
+            },
+            {
+              name: 'pageSize',
+              in: 'query',
+              description: 'Tamanho da página',
+              required: false,
+              schema: {
+                type: 'number'
+              }
+            }
+          ],
+          responses: {
+            200: {
+              description: 'Dados buscados com sucesso',
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'object',
+                    properties: {
+                      schoolSaturdays: {
+                        type: 'object',
+                        properties: {
+                          id: { type: 'string' },
+                          dayOfWeek: {
+                            type: 'string',
+                            enum: [
+                              'MONDAY',
+                              'TUESDAY',
+                              'WEDNESDAY',
+                              'THURSDAY',
+                              'FRIDAY'
+                            ]
+                          },
+                          date: { type: 'string' },
+                          createdAt: { type: 'string' },
+                          updatedAt: { type: 'string' }
+                        }
+                      },
+                      quantity: { type: 'number' },
+                      pageNumber: { type: 'number' },
+                      pageSize: { type: 'number' }
+                    }
+                  }
+                }
+              }
+            },
+            500: {
+              description: 'Erro interno no servidor',
+              $ref: '#/components/responses/ServerError'
+            },
+            401: {
+              description: 'Unauthorized',
+              $ref: '#/components/responses/UnauthorizedError'
+            }
+          }
+        }
       }
     },
-    tags: [{ name: 'Usuário' }, { name: 'Curso' }]
+    tags: [{ name: 'Usuário' }, { name: 'Curso' }, { name: 'Sábado Letivo' }]
   }
 };
