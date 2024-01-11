@@ -101,6 +101,28 @@ export const swaggerRoutesDocumentation: FastifyDynamicSwaggerOptions = {
               }
             }
           }
+        },
+        CreateSchoolSaturday: {
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                properties: {
+                  date: { type: 'string' },
+                  dayOfWeek: {
+                    type: 'string',
+                    enum: [
+                      'MONDAY',
+                      'TUESDAY',
+                      'WEDNESDAY',
+                      'THURSDAY',
+                      'FRIDAY'
+                    ]
+                  }
+                }
+              }
+            }
+          }
         }
       },
       responses: {
@@ -151,6 +173,19 @@ export const swaggerRoutesDocumentation: FastifyDynamicSwaggerOptions = {
             coordinatorId: { type: 'string' },
             acronym: { type: 'string' },
             duration: { type: 'number' },
+            createdAt: { type: 'string' },
+            updatedAt: { type: 'string' }
+          }
+        },
+        SchoolSaturday: {
+          type: 'object',
+          properties: {
+            id: { type: 'string' },
+            dayOfWeek: {
+              type: 'string',
+              enum: ['MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY']
+            },
+            date: { type: 'string' },
             createdAt: { type: 'string' },
             updatedAt: { type: 'string' }
           }
@@ -650,7 +685,37 @@ export const swaggerRoutesDocumentation: FastifyDynamicSwaggerOptions = {
               $ref: '#/components/responses/ServerError'
             },
             401: {
-              description: 'Unauthorized',
+              description: 'Não autorizado',
+              $ref: '#/components/responses/UnauthorizedError'
+            }
+          }
+        },
+        post: {
+          tags: ['Sábado Letivo'],
+          summary: 'Criar um novo sábado letivo',
+          description: 'Criar um novo sábado letivo para o sistema.',
+          operationId: 'createSchoolSaturday',
+          requestBody: {
+            $ref: '#/components/requestBodies/CreateSchoolSaturday'
+          },
+          responses: {
+            200: {
+              description: 'Sábado letivo criado com sucesso',
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'object',
+                    $ref: '#/components/schemas/SchoolSaturday'
+                  }
+                }
+              }
+            },
+            500: {
+              description: 'Erro interno no servidor',
+              $ref: '#/components/responses/ServerError'
+            },
+            401: {
+              description: 'Não autorizado',
               $ref: '#/components/responses/UnauthorizedError'
             }
           }
