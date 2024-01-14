@@ -1,5 +1,4 @@
 import { CreateUserUseCase } from '@/application/usecases/user/create/create-user.usecase';
-import { ApplicationError } from '@/domain/@shared/error/application-error.error';
 import { UserRole } from '@/domain/user/entity/user';
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { handleControllerResponse } from '../../@shared/handle-controller-response';
@@ -40,10 +39,7 @@ export class CreateUserController {
 
       return reply.status(201).send({ ...createdUser });
     } catch (error: unknown) {
-      console.log(error);
-      const { statusCode, response } = handleControllerResponse(
-        error as ApplicationError
-      );
+      const { statusCode, response } = handleControllerResponse(error as Error);
       return reply.status(statusCode).send(response);
     }
   }
