@@ -334,13 +334,31 @@ export const swaggerRoutesDocumentation: FastifyDynamicSwaggerOptions = {
                 }
               }
             },
-            500: {
-              description: 'Erro interno no servidor',
-              $ref: '#/components/responses/ServerError'
-            },
             401: {
               description: 'Não autorizado',
               $ref: '#/components/responses/UnauthorizedError'
+            },
+            400: {
+              description: 'Não autorizado',
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'object',
+                    properties: {
+                      statusCode: { type: 'number' },
+                      error: {
+                        type: 'string',
+                        enum: ['Bad Request']
+                      },
+                      message: { type: 'string' }
+                    }
+                  }
+                }
+              }
+            },
+            500: {
+              description: 'Erro interno no servidor',
+              $ref: '#/components/responses/ServerError'
             }
           }
         }
@@ -415,6 +433,24 @@ export const swaggerRoutesDocumentation: FastifyDynamicSwaggerOptions = {
                       nameAbbreviation: { type: 'string' },
                       email: { type: 'string' },
                       role: { type: 'string' }
+                    }
+                  }
+                }
+              }
+            },
+            400: {
+              description: 'Não autorizado',
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'object',
+                    properties: {
+                      statusCode: { type: 'number' },
+                      error: {
+                        type: 'string',
+                        enum: ['Bad Request']
+                      },
+                      message: { type: 'string' }
                     }
                   }
                 }
@@ -524,6 +560,24 @@ export const swaggerRoutesDocumentation: FastifyDynamicSwaggerOptions = {
                   schema: {
                     type: 'object',
                     $ref: '#/components/schemas/Course'
+                  }
+                }
+              }
+            },
+            400: {
+              description: 'Não autorizado',
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'object',
+                    properties: {
+                      statusCode: { type: 'number' },
+                      error: {
+                        type: 'string',
+                        enum: ['Bad Request']
+                      },
+                      message: { type: 'string' }
+                    }
                   }
                 }
               }
@@ -638,6 +692,24 @@ export const swaggerRoutesDocumentation: FastifyDynamicSwaggerOptions = {
                 }
               }
             },
+            400: {
+              description: 'Não autorizado',
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'object',
+                    properties: {
+                      statusCode: { type: 'number' },
+                      error: {
+                        type: 'string',
+                        enum: ['Bad Request']
+                      },
+                      message: { type: 'string' }
+                    }
+                  }
+                }
+              }
+            },
             500: {
               description: 'Erro interno no servidor',
               $ref: '#/components/responses/ServerError'
@@ -740,6 +812,24 @@ export const swaggerRoutesDocumentation: FastifyDynamicSwaggerOptions = {
                 }
               }
             },
+            400: {
+              description: 'Não autorizado',
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'object',
+                    properties: {
+                      statusCode: { type: 'number' },
+                      error: {
+                        type: 'string',
+                        enum: ['Bad Request']
+                      },
+                      message: { type: 'string' }
+                    }
+                  }
+                }
+              }
+            },
             500: {
               description: 'Erro interno no servidor',
               $ref: '#/components/responses/ServerError'
@@ -815,6 +905,24 @@ export const swaggerRoutesDocumentation: FastifyDynamicSwaggerOptions = {
                 'application/json': {
                   schema: {
                     $ref: '#/components/schemas/SchoolSaturday'
+                  }
+                }
+              }
+            },
+            400: {
+              description: 'Não autorizado',
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'object',
+                    properties: {
+                      statusCode: { type: 'number' },
+                      error: {
+                        type: 'string',
+                        enum: ['Bad Request']
+                      },
+                      message: { type: 'string' }
+                    }
                   }
                 }
               }
