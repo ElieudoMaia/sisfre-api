@@ -1,5 +1,8 @@
 import { Course, CourseType } from '@/domain/course/entity/course';
-import { SchoolSaturday } from '@/domain/school-saturday/entity/school-saturday';
+import {
+  DayOfWeek,
+  SchoolSaturday
+} from '@/domain/school-saturday/entity/school-saturday';
 import { User, UserRole } from '@/domain/user/entity/user';
 import { fake } from '../utils/fake-data-generator';
 
@@ -44,7 +47,7 @@ export const makeFakeSchoolSaturday = ({
 } = {}) => {
   return new SchoolSaturday({
     id,
-    dayOfWeek: 'MONDAY',
+    dayOfWeek: DayOfWeek.MONDAY,
     date: new Date(2101, 0, 1),
     createdAt
   });
