@@ -48,3 +48,18 @@ model SchoolSaturday {
 
   @@map("school_saturdays")
 }
+
+model Semester {
+  id                 String   @id @default(uuid()) @db.Uuid
+  year               Int      @db.Integer
+  semester           Int      @db.Integer
+  start_first_stage  DateTime @db.Date
+  end_first_stage    DateTime @db.Date
+  start_second_stage DateTime @db.Date
+  end_second_stage   DateTime @db.Date
+  type               String   @db.VarChar(12)
+  created_at         DateTime @default(now())
+  updated_at         DateTime @updatedAt
+
+  @@map("semesters")
+}

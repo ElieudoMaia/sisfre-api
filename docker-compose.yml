@@ -6,11 +6,11 @@ services:
     user: 'node'
     container_name: sisfre-api
     depends_on:
-      - postgres_container
+      - postgres_sisfre
     ports:
       - '3030:3030'
     environment:
-      - DATABASE_URL=postgres://postgres:postgres@postgres_container:5432/sisfre?schema=public
+      - DATABASE_URL=postgres://postgres:postgres@postgres_sisfre:5432/sisfre?schema=public
       - JWT_SECRET=secret
       - NODE_ENV=development
       - PORT=3030
@@ -21,9 +21,9 @@ services:
       - postgres-network
     command: yarn start
 
-  postgres_container:
+  postgres_sisfre:
     image: postgres:15
-    container_name: postgres
+    container_name: postgres_sisfre
     ports:
       - '5432:5432'
     environment:
