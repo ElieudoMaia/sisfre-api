@@ -9,24 +9,10 @@ import { FindSemesterByIdRepository } from '@/domain/semester/repository/find-se
 import { FindSemesterByYearRepository } from '@/domain/semester/repository/find-semester-by-year';
 import { UpdateSemesterRepository } from '@/domain/semester/repository/update-semester';
 import { describe, expect, it, vi } from 'vitest';
+import { makeFakeSemester } from '../../../@shared/fakes';
 import { fake } from '../../../utils/fake-data-generator';
 
 const semesterId = fake.uuid();
-
-const makeFakeSemester = ({ id = fake.uuid() } = {}) => {
-  return new Semester({
-    id,
-    year: new Date().getFullYear(),
-    semester: 1,
-    startFirstStage: new Date(),
-    endFirstStage: new Date(),
-    startSecondStage: new Date(),
-    endSecondStage: new Date(),
-    type: 'REGULAR',
-    createdAt: new Date('2024-01-01'),
-    updatedAt: new Date('2024-01-01')
-  });
-};
 
 const makeFakeFindSemesterByIdRepository = () => ({
   findById: vi.fn().mockResolvedValue(makeFakeSemester({ id: semesterId }))
