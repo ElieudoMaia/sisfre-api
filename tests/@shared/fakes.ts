@@ -3,6 +3,7 @@ import {
   DayOfWeek,
   SchoolSaturday
 } from '@/domain/school-saturday/entity/school-saturday';
+import { Semester } from '@/domain/semester/entity/semester';
 import { User, UserRole } from '@/domain/user/entity/user';
 import { fake } from '../utils/fake-data-generator';
 
@@ -50,5 +51,20 @@ export const makeFakeSchoolSaturday = ({
     dayOfWeek: DayOfWeek.MONDAY,
     date: new Date(2101, 0, 1),
     createdAt
+  });
+};
+
+export const makeFakeSemester = ({ id = fake.uuid() } = {}) => {
+  return new Semester({
+    id,
+    year: new Date().getFullYear(),
+    semester: 1,
+    startFirstStage: new Date(),
+    endFirstStage: new Date(),
+    startSecondStage: new Date(),
+    endSecondStage: new Date(),
+    type: 'REGULAR',
+    createdAt: new Date('2024-01-01'),
+    updatedAt: new Date('2024-01-01')
   });
 };
