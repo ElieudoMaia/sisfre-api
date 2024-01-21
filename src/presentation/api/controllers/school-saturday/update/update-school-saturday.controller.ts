@@ -36,7 +36,7 @@ export class UpdateSchoolSaturdayController {
           dayOfWeek: validatedData.dayOfWeek
         });
 
-      return reply.status(201).send({ ...updatedSchoolSaturday });
+      return reply.status(200).send({ ...updatedSchoolSaturday });
     } catch (error) {
       const { statusCode, response } = handleControllerResponse(error as Error);
       return reply.status(statusCode).send(response);
