@@ -151,7 +151,7 @@ describe('UpdateSemesterUseCase', () => {
     vi.spyOn(
       findSemesterByYearRepositorySpy,
       'findByYear'
-    ).mockResolvedValueOnce(
+    ).mockResolvedValueOnce([
       new Semester({
         year: fakeInputDTO.year,
         semester: fakeInputDTO.semester,
@@ -161,7 +161,7 @@ describe('UpdateSemesterUseCase', () => {
         startSecondStage: new Date(),
         endSecondStage: new Date()
       })
-    );
+    ]);
 
     await expect(sut.execute(fakeInputDTO)).rejects.toThrow(
       'Already exists a semester for this year with the same semester and type'
@@ -185,7 +185,7 @@ describe('UpdateSemesterUseCase', () => {
     vi.spyOn(
       findSemesterByYearRepositorySpy,
       'findByYear'
-    ).mockResolvedValueOnce(
+    ).mockResolvedValueOnce([
       new Semester({
         year: fakeInputDTO.year,
         semester: 2,
@@ -195,7 +195,7 @@ describe('UpdateSemesterUseCase', () => {
         startSecondStage: new Date(),
         endSecondStage: new Date()
       })
-    );
+    ]);
 
     await expect(sut.execute(fakeInputDTO)).resolves.not.toThrow();
   });
@@ -206,7 +206,7 @@ describe('UpdateSemesterUseCase', () => {
     vi.spyOn(
       findSemesterByYearRepositorySpy,
       'findByYear'
-    ).mockResolvedValueOnce(
+    ).mockResolvedValueOnce([
       new Semester({
         year: fakeInputDTO.year,
         semester: fakeInputDTO.semester,
@@ -216,7 +216,7 @@ describe('UpdateSemesterUseCase', () => {
         startSecondStage: new Date(),
         endSecondStage: new Date()
       })
-    );
+    ]);
 
     await expect(sut.execute(fakeInputDTO)).resolves.not.toThrow();
   });
@@ -227,7 +227,7 @@ describe('UpdateSemesterUseCase', () => {
     vi.spyOn(
       findSemesterByYearRepositorySpy,
       'findByYear'
-    ).mockResolvedValueOnce(
+    ).mockResolvedValueOnce([
       new Semester({
         id: fakeInputDTO.id,
         year: fakeInputDTO.year,
@@ -238,7 +238,7 @@ describe('UpdateSemesterUseCase', () => {
         startSecondStage: new Date(),
         endSecondStage: new Date()
       })
-    );
+    ]);
 
     await expect(sut.execute(fakeInputDTO)).resolves.not.toThrow();
   });

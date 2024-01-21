@@ -65,22 +65,25 @@ export class SemesterRepository
     });
   }
 
-  async findByYear(year: number): Promise<Semester | null> {
-    const dbSemester = await prisma.semester.findFirst({ where: { year } });
-    if (!dbSemester) return null;
+  async findByYear(year: number): Promise<Semester[] | null> {
+    const dbSemesters = await prisma.semester.findMany({ where: { year } });
+    if (!dbSemesters.length) return null;
 
-    return new Semester({
-      id: dbSemester.id,
-      year: dbSemester.year,
-      semester: dbSemester.semester as SemesterOfYear,
-      startFirstStage: dbSemester.start_first_stage,
-      endFirstStage: dbSemester.end_first_stage,
-      startSecondStage: dbSemester.start_second_stage,
-      endSecondStage: dbSemester.end_second_stage,
-      type: dbSemester.type as SemesterType,
-      createdAt: dbSemester.created_at,
-      updatedAt: dbSemester.updated_at
-    });
+    return dbSemesters.map(
+      (semester) =>
+        new Semester({
+          id: semester.id,
+          year: semester.year,
+          semester: semester.semester as SemesterOfYear,
+          startFirstStage: semester.start_first_stage,
+          endFirstStage: semester.end_first_stage,
+          startSecondStage: semester.start_second_stage,
+          endSecondStage: semester.end_second_stage,
+          type: semester.type as SemesterType,
+          createdAt: semester.created_at,
+          updatedAt: semester.updated_at
+        })
+    );
   }
 
   async findAll(

@@ -102,7 +102,7 @@ describe('CreateSemesterUseCase', () => {
     vi.spyOn(
       findSemesterByYearRepositorySpy,
       'findByYear'
-    ).mockResolvedValueOnce(
+    ).mockResolvedValueOnce([
       new Semester({
         year: fakeInputDTO.year,
         semester: fakeInputDTO.semester,
@@ -112,7 +112,7 @@ describe('CreateSemesterUseCase', () => {
         startSecondStage: new Date(),
         endSecondStage: new Date()
       })
-    );
+    ]);
 
     await expect(sut.execute(fakeInputDTO)).rejects.toThrow(
       'Semester already exists'
@@ -136,7 +136,7 @@ describe('CreateSemesterUseCase', () => {
     vi.spyOn(
       findSemesterByYearRepositorySpy,
       'findByYear'
-    ).mockResolvedValueOnce(
+    ).mockResolvedValueOnce([
       new Semester({
         year: fakeInputDTO.year,
         semester: 2,
@@ -146,7 +146,7 @@ describe('CreateSemesterUseCase', () => {
         startSecondStage: new Date(),
         endSecondStage: new Date()
       })
-    );
+    ]);
 
     await expect(sut.execute(fakeInputDTO)).resolves.not.toThrow();
   });
@@ -157,7 +157,7 @@ describe('CreateSemesterUseCase', () => {
     vi.spyOn(
       findSemesterByYearRepositorySpy,
       'findByYear'
-    ).mockResolvedValueOnce(
+    ).mockResolvedValueOnce([
       new Semester({
         year: fakeInputDTO.year,
         semester: fakeInputDTO.semester,
@@ -167,7 +167,7 @@ describe('CreateSemesterUseCase', () => {
         startSecondStage: new Date(),
         endSecondStage: new Date()
       })
-    );
+    ]);
 
     await expect(sut.execute(fakeInputDTO)).resolves.not.toThrow();
   });

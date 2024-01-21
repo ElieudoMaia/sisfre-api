@@ -23,12 +23,12 @@ export class CreateSemesterUseCase implements ICreateSemesterUseCase {
   ): Promise<CreateSemesterUseCaseOutputDTO> {
     const semester = new Semester(input);
 
-    const semesterForThisYear =
+    const semestersForThisYear =
       await this.findSemesterByYearRepository.findByYear(semester.year);
-    const alreadyExists =
-      semesterForThisYear &&
-      semesterForThisYear.semester === semester.semester &&
-      semesterForThisYear.type === semester.type;
+
+    const alreadyExists = semestersForThisYear?.some(
+      (s) => s.semester === semester.semester && s.type === semester.type
+    );
 
     if (alreadyExists) {
       throw new InvalidResourceError('Semester already exists');

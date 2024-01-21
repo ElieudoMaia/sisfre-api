@@ -39,12 +39,15 @@ export class UpdateSemesterUseCase {
 
     const semesterForSameYear =
       await this.findSemesterByYearRepository.findByYear(input.year);
-    if (
-      semesterForSameYear &&
-      semesterForSameYear.id !== updatedSemester.id &&
-      semesterForSameYear.semester === updatedSemester.semester &&
-      semesterForSameYear.type === updatedSemester.type
-    ) {
+
+    const alreadyExists = semesterForSameYear?.some(
+      (s) =>
+        s.id !== updatedSemester.id &&
+        s.semester === updatedSemester.semester &&
+        s.type === updatedSemester.type
+    );
+
+    if (alreadyExists) {
       throw new InvalidResourceError(
         'Already exists a semester for this year with the same semester and type'
       );
