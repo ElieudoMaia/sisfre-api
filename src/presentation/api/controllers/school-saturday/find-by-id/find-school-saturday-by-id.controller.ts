@@ -20,8 +20,10 @@ export class FindSchoolSaturdayByIdController {
     try {
       const id = request.params.id;
       await this.findSchoolSaturdayByIdRequestValidator.validate({ id });
-      const course = await this.findSchoolSaturdayByIdUseCase.execute({ id });
-      return reply.status(200).send(course);
+      const schoolSaturday = await this.findSchoolSaturdayByIdUseCase.execute({
+        id
+      });
+      return reply.status(200).send(schoolSaturday);
     } catch (error) {
       const { statusCode, response } = handleControllerResponse(error as Error);
       return reply.status(statusCode).send(response);
