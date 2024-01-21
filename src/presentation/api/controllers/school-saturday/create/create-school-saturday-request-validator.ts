@@ -26,6 +26,7 @@ export class CreateSchoolSaturdayRequestValidator {
         .required('date is required'),
       dayOfWeek: yup
         .string()
+        .typeError('dayOfWeek must be type of string')
         .trim()
         .oneOf(dayOfWeekValues)
         .required('dayOfWeek is required')

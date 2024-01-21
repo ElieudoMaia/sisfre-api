@@ -4,12 +4,8 @@ import { handleControllerResponse } from '../../@shared/handle-controller-respon
 import { CreateSchoolSaturdayRequestValidator } from './create-school-saturday-request-validator';
 
 type RequetBodyType = {
-  name: string;
-  nameAbbreviation: string;
-  email: string;
-  password: string;
-  passwordConfirmation: string;
-  role: string;
+  date: Date;
+  dayOfWeek: string;
 };
 
 export class CreateSchoolSaturdayController {
