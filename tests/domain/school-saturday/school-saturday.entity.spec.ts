@@ -8,7 +8,7 @@ import { fake } from '../../utils/fake-data-generator';
 
 const makeFakeSchoolSaturdayProps = (): SchoolSaturdayEntityProps => ({
   id: fake.uuid(),
-  dayOfWeek: 'MONDAY',
+  dayOfWeek: DayOfWeek.MONDAY,
   date: new Date(2101, 0, 1), // is a saturday
   createdAt: new Date(),
   updatedAt: new Date()
