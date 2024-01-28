@@ -10,7 +10,7 @@ const makeFakeDayOffSchoolProps = (): DayOffSchoolEntityProps => ({
   id: fake.uuid(),
   description: fake.random(15),
   type: DayOffSchoolType.HOLIDAY,
-  date: new Date(2024, 0, 26), // is a friday
+  dateBegin: new Date(2024, 0, 26),
   createdAt: new Date(),
   updatedAt: new Date()
 });
@@ -30,6 +30,27 @@ describe('DayOffSchoolEntity', () => {
     expect(schoolSaturday.createdAt).toBeInstanceOf(Date);
     expect(schoolSaturday.updatedAt).toBeDefined();
     expect(schoolSaturday.updatedAt).toBeInstanceOf(Date);
+  });
+
+  it('should set dateEnd only when type is RECESS or VOCATION', () => {
+    const fakeSchoolSaturdayProps = makeFakeDayOffSchoolProps();
+    fakeSchoolSaturdayProps.dateEnd = new Date(2024, 0, 26);
+
+    fakeSchoolSaturdayProps.type = DayOffSchoolType.HOLIDAY;
+    const schoolSaturday = new DayOffSchool(fakeSchoolSaturdayProps);
+    expect(schoolSaturday.dateEnd).toBeUndefined();
+
+    fakeSchoolSaturdayProps.type = DayOffSchoolType.RECESS;
+    const schoolSaturday2 = new DayOffSchool(fakeSchoolSaturdayProps);
+    expect(schoolSaturday2.dateEnd).toBeDefined();
+    expect(schoolSaturday2.dateEnd).toBeInstanceOf(Date);
+    expect(schoolSaturday2.dateEnd).toEqual(schoolSaturday2.dateBegin);
+
+    fakeSchoolSaturdayProps.type = DayOffSchoolType.VOCATION;
+    const schoolSaturday3 = new DayOffSchool(fakeSchoolSaturdayProps);
+    expect(schoolSaturday3.dateEnd).toBeDefined();
+    expect(schoolSaturday3.dateEnd).toBeInstanceOf(Date);
+    expect(schoolSaturday3.dateEnd).toEqual(schoolSaturday3.dateBegin);
   });
 
   it('should validate id correctly', () => {
@@ -70,24 +91,85 @@ describe('DayOffSchoolEntity', () => {
     }).toThrow('type is required');
   });
 
-  it('should validate date correctly', () => {
+  it('should throw when dateBegin is missing', () => {
     const fakeSchoolSaturdayProps = makeFakeDayOffSchoolProps();
     expect(() => {
-      fakeSchoolSaturdayProps.date = new Date(2024, 0, 28); // is a sunday
+      fakeSchoolSaturdayProps.dateBegin = undefined as unknown as Date;
       new DayOffSchool(fakeSchoolSaturdayProps);
-    }).toThrow('date must not be a weekend');
+    }).toThrow('dateBegin is required');
+  });
+
+  it('should throw when type is HOLIDAY and dateBegin is a sunday', () => {
     expect(() => {
-      fakeSchoolSaturdayProps.date = new Date(2024, 0, 27); // is a saturday
+      const fakeSchoolSaturdayProps = makeFakeDayOffSchoolProps();
+      fakeSchoolSaturdayProps.type = DayOffSchoolType.HOLIDAY;
+      fakeSchoolSaturdayProps.dateBegin = new Date(2024, 0, 28); // is a sunday
       new DayOffSchool(fakeSchoolSaturdayProps);
-    }).toThrow('date must not be a weekend');
+    }).toThrow('dateBegin must not be a sunday when type is HOLIDAY');
+  });
+
+  it('should not throw when dateBegin is a sunday and type is RECESS or VOCATION', () => {
     expect(() => {
-      fakeSchoolSaturdayProps.date = undefined as unknown as Date;
-      new DayOffSchool(fakeSchoolSaturdayProps);
-    }).toThrow('date is required');
-    expect(() => {
-      fakeSchoolSaturdayProps.date = new Date(2024, 0, 29); // is a monday
+      const fakeSchoolSaturdayProps = makeFakeDayOffSchoolProps();
+      fakeSchoolSaturdayProps.type = DayOffSchoolType.RECESS;
+      fakeSchoolSaturdayProps.dateBegin = new Date(2024, 0, 28); // is a sunday
+      fakeSchoolSaturdayProps.dateEnd = new Date(2024, 0, 29);
       new DayOffSchool(fakeSchoolSaturdayProps);
     }).not.toThrow();
+    expect(() => {
+      const fakeSchoolSaturdayProps = makeFakeDayOffSchoolProps();
+      fakeSchoolSaturdayProps.type = DayOffSchoolType.VOCATION;
+      fakeSchoolSaturdayProps.dateBegin = new Date(2024, 0, 28); // is a sunday
+      fakeSchoolSaturdayProps.dateEnd = new Date(2024, 0, 29);
+      new DayOffSchool(fakeSchoolSaturdayProps);
+    }).not.toThrow();
+  });
+
+  it('should not throw when type is HOLIDAY and dateBegin is not a sunday', () => {
+    expect(() => {
+      const fakeSchoolSaturdayProps = makeFakeDayOffSchoolProps();
+      fakeSchoolSaturdayProps.dateBegin = new Date(2024, 0, 29); // is a monday
+      new DayOffSchool(fakeSchoolSaturdayProps);
+    }).not.toThrow();
+    expect(() => {
+      const fakeSchoolSaturdayProps = makeFakeDayOffSchoolProps();
+      fakeSchoolSaturdayProps.dateBegin = new Date(2024, 0, 27); // is a saturday
+      new DayOffSchool(fakeSchoolSaturdayProps);
+    }).not.toThrow();
+  });
+
+  it('should not throw if type is HOLIDAY and dateEnd is undefined', () => {
+    expect(() => {
+      const fakeSchoolSaturdayProps = makeFakeDayOffSchoolProps();
+      fakeSchoolSaturdayProps.type = DayOffSchoolType.HOLIDAY;
+      fakeSchoolSaturdayProps.dateEnd = undefined;
+      new DayOffSchool(fakeSchoolSaturdayProps);
+    }).not.toThrow();
+  });
+
+  it('should throw when dateEnd is before dateBegin', () => {
+    expect(() => {
+      const fakeDayOffSchoolProps = makeFakeDayOffSchoolProps();
+      fakeDayOffSchoolProps.type = DayOffSchoolType.RECESS;
+      fakeDayOffSchoolProps.dateBegin = new Date(2024, 0, 26);
+      fakeDayOffSchoolProps.dateEnd = new Date(2024, 0, 25);
+      new DayOffSchool(fakeDayOffSchoolProps);
+    }).toThrow('dateEnd must be after than or equal to dateBegin');
+  });
+
+  it('should throw if type is RECESS or VOCATION and dateEnd is undefined', () => {
+    expect(() => {
+      const fakeSchoolSaturdayProps = makeFakeDayOffSchoolProps();
+      fakeSchoolSaturdayProps.type = DayOffSchoolType.RECESS;
+      fakeSchoolSaturdayProps.dateEnd = undefined;
+      new DayOffSchool(fakeSchoolSaturdayProps);
+    }).toThrow('dateEnd is required when type is RECESS');
+    expect(() => {
+      const fakeSchoolSaturdayProps = makeFakeDayOffSchoolProps();
+      fakeSchoolSaturdayProps.type = DayOffSchoolType.VOCATION;
+      fakeSchoolSaturdayProps.dateEnd = undefined;
+      new DayOffSchool(fakeSchoolSaturdayProps);
+    }).toThrow('dateEnd is required when type is VOCATION');
   });
 
   it('should validate createdAt correctly', () => {
@@ -121,5 +203,18 @@ describe('DayOffSchoolEntity', () => {
       fakeSchoolSaturdayProps.updatedAt = undefined as unknown as Date;
       new DayOffSchool(fakeSchoolSaturdayProps);
     }).not.toThrow();
+  });
+
+  it('should create a new DayOffSchoolEntity instance', () => {
+    const fakeDayOffSchoolProps = makeFakeDayOffSchoolProps();
+    const dayOffSchool = new DayOffSchool(fakeDayOffSchoolProps);
+    expect(dayOffSchool).toBeInstanceOf(DayOffSchool);
+    expect(dayOffSchool.id).toEqual(fakeDayOffSchoolProps.id);
+    expect(dayOffSchool.description).toEqual(fakeDayOffSchoolProps.description);
+    expect(dayOffSchool.type).toEqual(fakeDayOffSchoolProps.type);
+    expect(dayOffSchool.dateBegin).toEqual(fakeDayOffSchoolProps.dateBegin);
+    expect(dayOffSchool.dateEnd).toEqual(fakeDayOffSchoolProps.dateEnd);
+    expect(dayOffSchool.createdAt).toEqual(fakeDayOffSchoolProps.createdAt);
+    expect(dayOffSchool.updatedAt).toEqual(fakeDayOffSchoolProps.updatedAt);
   });
 });

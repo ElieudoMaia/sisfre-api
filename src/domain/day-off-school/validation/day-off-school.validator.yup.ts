@@ -29,15 +29,29 @@ export class DayOffSchoolYupValidator
             Array.from(Object.values(DayOffSchoolType)),
             `type must be one of: ${Object.values(DayOffSchoolType).join(', ')}`
           ),
-        date: yup
+        dateBegin: yup
           .date()
-          .typeError('date must be a date')
+          .typeError('dateBegin must be a date')
           .test(
-            'is-not-weekend',
-            'date must not be a weekend',
-            (value) => value?.getDay() !== 0 && value?.getDay() !== 6
+            'dateBegin',
+            'dateBegin must not be a sunday when type is HOLIDAY',
+            (value) =>
+              dayOffSchool.type !== DayOffSchoolType.HOLIDAY ||
+              value?.getDay() !== 0
           )
-          .required('date is required'),
+          .required('dateBegin is required'),
+        dateEnd: yup
+          .date()
+          .typeError('dateEnd must be a date')
+          .test(
+            'dateEnd',
+            `dateEnd is required when type is ${dayOffSchool.type}`,
+            (value) => dayOffSchool.type === DayOffSchoolType.HOLIDAY || !!value
+          )
+          .min(
+            yup.ref('dateBegin'),
+            'dateEnd must be after than or equal to dateBegin'
+          ),
         createdAt: yup
           .date()
           .typeError('createdAt must be a date')
