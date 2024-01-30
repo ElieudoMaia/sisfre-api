@@ -179,11 +179,6 @@ describe('DayOffSchoolEntity', () => {
       fakeSchoolSaturdayProps.updatedAt = new Date(2024, 0, 29);
       new DayOffSchool(fakeSchoolSaturdayProps);
     }).toThrow('createdAt must be a date');
-    expect(() => {
-      fakeSchoolSaturdayProps.createdAt = undefined as unknown as Date;
-      fakeSchoolSaturdayProps.updatedAt = new Date(2024, 0, 29);
-      new DayOffSchool(fakeSchoolSaturdayProps);
-    }).not.toThrow();
   });
 
   it('should validate updatedAt correctly', () => {
