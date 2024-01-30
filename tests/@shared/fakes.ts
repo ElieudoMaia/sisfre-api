@@ -1,5 +1,9 @@
 import { Course, CourseType } from '@/domain/course/entity/course';
 import {
+  DayOffSchool,
+  DayOffSchoolType
+} from '@/domain/day-off-school/entity/day-off-school';
+import {
   DayOfWeek,
   SchoolSaturday
 } from '@/domain/school-saturday/entity/school-saturday';
@@ -50,6 +54,19 @@ export const makeFakeSchoolSaturday = ({
     id,
     dayOfWeek: DayOfWeek.MONDAY,
     date: new Date(2101, 0, 1),
+    createdAt
+  });
+};
+export const makeFakeDayOffSchool = ({
+  id = fake.uuid(),
+  createdAt = new Date()
+} = {}) => {
+  return new DayOffSchool({
+    id,
+    description: fake.random(15),
+    type: DayOffSchoolType.HOLIDAY,
+    dateBegin: new Date(2101, 0, 1),
+    dateEnd: new Date(2101, 0, 2),
     createdAt
   });
 };
