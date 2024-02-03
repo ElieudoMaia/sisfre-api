@@ -4,7 +4,7 @@ export type CreateDayOffSchoolUseCaseInputDTO = {
   description: string;
   type: DayOffSchoolType;
   dateBegin: Date;
-  dateEnd: Date;
+  dateEnd?: Date;
 };
 
 export type CreateDayOffSchoolUseCaseOutputDTO = {
