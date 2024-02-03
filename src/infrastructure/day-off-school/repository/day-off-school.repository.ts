@@ -6,6 +6,7 @@ import { CheckHasRecessOrVocationInDateRangeRepository } from '@/domain/day-off-
 import { CreateDayOffSchoolRepository } from '@/domain/day-off-school/repository/create-day-off-school';
 import { DeleteDayOffSchoolRepository } from '@/domain/day-off-school/repository/delete-day-off-school';
 import { FindDayOffSchoolByIdRepository } from '@/domain/day-off-school/repository/find-day-off-school-by-id';
+import { FindRecessOrVocationInDateRangeRepository } from '@/domain/day-off-school/repository/find-recess-or-vocation-in-date-range';
 import {
   ListDaysOffSchoolRepository,
   ListDaysOffSchoolRepositoryInput,
@@ -23,7 +24,8 @@ export class DayOffSchoolRepository
     ListDaysOffSchoolRepository,
     FindDayOffSchoolByIdRepository,
     DeleteDayOffSchoolRepository,
-    CheckHasRecessOrVocationInDateRangeRepository
+    CheckHasRecessOrVocationInDateRangeRepository,
+    FindRecessOrVocationInDateRangeRepository
 {
   async create(dayOffSchool: DayOffSchool): Promise<void> {
     await prisma.dayOffSchool.create({
@@ -133,5 +135,40 @@ export class DayOffSchoolRepository
     });
 
     return !!dayOffSchool;
+  }
+
+  async findInRange(
+    dateBegin: Date,
+    dateEnd: Date
+  ): Promise<DayOffSchool[] | null> {
+    const daysOffSchool = await prisma.dayOffSchool.findMany({
+      where: {
+        OR: [
+          {
+            date_begin: { lte: dateBegin },
+            date_end: { gte: dateBegin }
+          },
+          {
+            date_begin: { lte: dateEnd },
+            date_end: { gte: dateEnd }
+          }
+        ]
+      }
+    });
+
+    if (!daysOffSchool) return null;
+
+    return daysOffSchool.map(
+      (dayOffSchool) =>
+        new DayOffSchool({
+          id: dayOffSchool.id,
+          description: dayOffSchool.description,
+          type: dayOffSchool.type as DayOffSchoolType,
+          dateBegin: dayOffSchool.date_begin,
+          dateEnd: dayOffSchool.date_end ?? undefined,
+          createdAt: dayOffSchool.created_at,
+          updatedAt: dayOffSchool.updated_at
+        })
+    );
   }
 }
