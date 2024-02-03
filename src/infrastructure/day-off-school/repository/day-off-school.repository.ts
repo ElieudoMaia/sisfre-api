@@ -3,6 +3,8 @@ import {
   DayOffSchoolType
 } from '@/domain/day-off-school/entity/day-off-school';
 import { CreateDayOffSchoolRepository } from '@/domain/day-off-school/repository/create-day-off-school';
+import { DeleteDayOffSchoolRepository } from '@/domain/day-off-school/repository/delete-day-off-school';
+import { FindDayOffSchoolByIdRepository } from '@/domain/day-off-school/repository/find-day-off-school-by-id-repository';
 import {
   ListDaysOffSchoolRepository,
   ListDaysOffSchoolRepositoryInput,
@@ -17,7 +19,9 @@ export class DayOffSchoolRepository
   implements
     CreateDayOffSchoolRepository,
     UpdateDayOffSchoolRepository,
-    ListDaysOffSchoolRepository
+    ListDaysOffSchoolRepository,
+    FindDayOffSchoolByIdRepository,
+    DeleteDayOffSchoolRepository
 {
   async create(dayOffSchool: DayOffSchool): Promise<void> {
     await prisma.dayOffSchool.create({
@@ -83,5 +87,29 @@ export class DayOffSchoolRepository
       quantity: total,
       daysOffSchool: daysOffSchoolDTO
     };
+  }
+
+  async findById(id: string): Promise<DayOffSchool | null> {
+    const dayOffSchooldb = await prisma.dayOffSchool.findUnique({
+      where: { id }
+    });
+
+    if (!dayOffSchooldb) return null;
+
+    return new DayOffSchool({
+      id: dayOffSchooldb.id,
+      description: dayOffSchooldb.description,
+      type: dayOffSchooldb.type as DayOffSchoolType,
+      dateBegin: dayOffSchooldb.date_begin,
+      dateEnd: dayOffSchooldb.date_end ?? undefined,
+      createdAt: dayOffSchooldb.created_at,
+      updatedAt: dayOffSchooldb.updated_at
+    });
+  }
+
+  async delete(dayOffSchoolId: string): Promise<void> {
+    await prisma.dayOffSchool.delete({
+      where: { id: dayOffSchoolId }
+    });
   }
 }
