@@ -30,7 +30,7 @@
     "husky": "^8.0.3",
     "lint-staged": "^14.0.1",
     "prettier": "^3.0.2",
-    "prisma": "^5.5.0",
+    "prisma": "^5.9.1",
     "tsx": "^3.12.7",
     "typescript": "^5.2.2",
     "vitest": "^0.34.3"
@@ -39,7 +39,7 @@
     "@fastify/cors": "^8.4.1",
     "@fastify/swagger": "^8.12.1",
     "@fastify/swagger-ui": "^2.0.1",
-    "@prisma/client": "^5.5.0",
+    "@prisma/client": "^5.9.1",
     "bcrypt": "^5.1.1",
     "fastify": "^4.24.3",
     "jsonwebtoken": "^9.0.2",
