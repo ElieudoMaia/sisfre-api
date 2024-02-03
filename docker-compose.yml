@@ -1,14 +1,15 @@
 version: '3'
 
 services:
-  sisfre-api:
+  sisfre_api:
     image: node:18.18.2
     user: 'node'
-    container_name: sisfre-api
+    container_name: sisfre_api
     depends_on:
       - postgres_sisfre
     ports:
       - '3030:3030'
+      - '5555:5555'
     environment:
       - DATABASE_URL=postgres://postgres:postgres@postgres_sisfre:5432/sisfre?schema=public
       - JWT_SECRET=secret
