@@ -2,9 +2,10 @@ import {
   DayOffSchool,
   DayOffSchoolType
 } from '@/domain/day-off-school/entity/day-off-school';
+import { CheckHasRecessOrVocationInDateRangeRepository } from '@/domain/day-off-school/repository/check-has-recess-or-vocation-In-date-range';
 import { CreateDayOffSchoolRepository } from '@/domain/day-off-school/repository/create-day-off-school';
 import { DeleteDayOffSchoolRepository } from '@/domain/day-off-school/repository/delete-day-off-school';
-import { FindDayOffSchoolByIdRepository } from '@/domain/day-off-school/repository/find-day-off-school-by-id-repository';
+import { FindDayOffSchoolByIdRepository } from '@/domain/day-off-school/repository/find-day-off-school-by-id';
 import {
   ListDaysOffSchoolRepository,
   ListDaysOffSchoolRepositoryInput,
@@ -21,7 +22,8 @@ export class DayOffSchoolRepository
     UpdateDayOffSchoolRepository,
     ListDaysOffSchoolRepository,
     FindDayOffSchoolByIdRepository,
-    DeleteDayOffSchoolRepository
+    DeleteDayOffSchoolRepository,
+    CheckHasRecessOrVocationInDateRangeRepository
 {
   async create(dayOffSchool: DayOffSchool): Promise<void> {
     await prisma.dayOffSchool.create({
@@ -111,5 +113,25 @@ export class DayOffSchoolRepository
     await prisma.dayOffSchool.delete({
       where: { id: dayOffSchoolId }
     });
+  }
+
+  async checkByDateRange(dateBegin: Date, dateEnd: Date): Promise<boolean> {
+    const dayOffSchool = await prisma.dayOffSchool.findFirst({
+      where: {
+        type: { in: ['VOCATION', 'RECESS'] },
+        OR: [
+          {
+            date_begin: { lte: dateBegin },
+            date_end: { gte: dateBegin }
+          },
+          {
+            date_begin: { lte: dateEnd },
+            date_end: { gte: dateEnd }
+          }
+        ]
+      }
+    });
+
+    return !!dayOffSchool;
   }
 }
