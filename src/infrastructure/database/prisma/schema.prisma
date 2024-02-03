@@ -63,3 +63,15 @@ model Semester {
 
   @@map("semesters")
 }
+
+model DayOffSchool {
+  id          String    @id @default(uuid()) @db.Uuid
+  description String    @db.VarChar(255)
+  type        String    @db.VarChar(10)
+  dateBegin   DateTime  @db.Date
+  dateEnd     DateTime? @db.Date
+  created_at  DateTime  @default(now())
+  updated_at  DateTime  @updatedAt
+
+  @@map("days_off_school")
+}
