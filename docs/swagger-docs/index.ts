@@ -1,5 +1,6 @@
 import { FastifyDynamicSwaggerOptions } from '@fastify/swagger';
 import coursePathsDocs from './paths/course-paths.docs';
+import dayOffSchoolPathsDocs from './paths/day-off-school-paths.docs';
 import loginPathsDocs from './paths/login-paths.docs';
 import schoolSaturdayPathsDocs from './paths/school-saturday-paths.docs';
 import semestersDocs from './paths/semester-paths.docs';
@@ -193,6 +194,42 @@ export const swaggerRoutesDocumentation: FastifyDynamicSwaggerOptions = {
               }
             }
           }
+        },
+        CreateDayOffSchool: {
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                properties: {
+                  description: { type: 'string' },
+                  type: {
+                    type: 'string',
+                    enum: ['HOLIDAY', 'RECESS', 'VOCATION']
+                  },
+                  dateBegin: { type: 'string' },
+                  dateEnd: { type: 'string', nullable: true }
+                }
+              }
+            }
+          }
+        },
+        UpdateDayOffSchool: {
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                properties: {
+                  description: { type: 'string' },
+                  type: {
+                    type: 'string',
+                    enum: ['HOLIDAY', 'RECESS', 'VOCATION']
+                  },
+                  dateBegin: { type: 'string' },
+                  dateEnd: { type: 'string', nullable: true }
+                }
+              }
+            }
+          }
         }
       },
       responses: {
@@ -288,6 +325,21 @@ export const swaggerRoutesDocumentation: FastifyDynamicSwaggerOptions = {
             updatedAt: { type: 'string' }
           }
         },
+        DayOffSchool: {
+          type: 'object',
+          properties: {
+            id: { type: 'string' },
+            description: { type: 'string' },
+            type: {
+              type: 'string',
+              enum: ['HOLIDAY', 'RECESS', 'VOCATION']
+            },
+            dateBegin: { type: 'string' },
+            dateEnd: { type: 'string', nullable: true },
+            createdAt: { type: 'string' },
+            updatedAt: { type: 'string' }
+          }
+        },
         UnauthorizedError: {
           type: 'object',
           properties: {
@@ -337,14 +389,16 @@ export const swaggerRoutesDocumentation: FastifyDynamicSwaggerOptions = {
       ...coursePathsDocs,
       ...schoolSaturdayPathsDocs,
       ...loginPathsDocs,
-      ...semestersDocs
+      ...semestersDocs,
+      ...dayOffSchoolPathsDocs
     },
     tags: [
       { name: 'Usuário' },
       { name: 'Curso' },
       { name: 'Sábado Letivo' },
       { name: 'Login' },
-      { name: 'Semestre' }
+      { name: 'Semestre' },
+      { name: 'Dia Não Letivo' }
     ]
   }
 };
