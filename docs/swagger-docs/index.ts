@@ -2,6 +2,7 @@ import { FastifyDynamicSwaggerOptions } from '@fastify/swagger';
 import coursePathsDocs from './paths/course-paths.docs';
 import loginPathsDocs from './paths/login-paths.docs';
 import schoolSaturdayPathsDocs from './paths/school-saturday-paths.docs';
+import semestersDocs from './paths/semester-paths.docs';
 import userPathsDocs from './paths/user-paths.docs';
 
 export const swaggerRoutesDocumentation: FastifyDynamicSwaggerOptions = {
@@ -129,6 +130,48 @@ export const swaggerRoutesDocumentation: FastifyDynamicSwaggerOptions = {
             }
           }
         },
+        CreateSemester: {
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                properties: {
+                  year: { type: 'number' },
+                  semester: { type: 'number' },
+                  startFirstStage: { type: 'string' },
+                  endFirstStage: { type: 'string' },
+                  startSecondStage: { type: 'string' },
+                  endSecondStage: { type: 'string' },
+                  type: {
+                    type: 'string',
+                    enum: ['REGULAR', 'CONVENTIONAL']
+                  }
+                }
+              }
+            }
+          }
+        },
+        UpdateSemester: {
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                properties: {
+                  year: { type: 'number' },
+                  semester: { type: 'number' },
+                  startFirstStage: { type: 'string' },
+                  endFirstStage: { type: 'string' },
+                  startSecondStage: { type: 'string' },
+                  endSecondStage: { type: 'string' },
+                  type: {
+                    type: 'string',
+                    enum: ['REGULAR', 'CONVENTIONAL']
+                  }
+                }
+              }
+            }
+          }
+        },
         UpdateSchoolSaturday: {
           content: {
             'application/json': {
@@ -159,6 +202,16 @@ export const swaggerRoutesDocumentation: FastifyDynamicSwaggerOptions = {
             'application/json': {
               schema: {
                 $ref: '#/components/schemas/UnauthorizedError'
+              }
+            }
+          }
+        },
+        NotFoundError: {
+          description: 'Recurso não encontrado',
+          content: {
+            'application/json': {
+              schema: {
+                $ref: '#/components/schemas/NotFoundError'
               }
             }
           }
@@ -217,6 +270,24 @@ export const swaggerRoutesDocumentation: FastifyDynamicSwaggerOptions = {
             updatedAt: { type: 'string' }
           }
         },
+        Semester: {
+          type: 'object',
+          properties: {
+            id: { type: 'string' },
+            year: { type: 'number' },
+            semester: { type: 'number' },
+            type: {
+              type: 'string',
+              enum: ['REGULAR', 'CONVENTIONAL']
+            },
+            startFirstStage: { type: 'string' },
+            endFirstStage: { type: 'string' },
+            startSecondStage: { type: 'string' },
+            endSecondStage: { type: 'string' },
+            createdAt: { type: 'string' },
+            updatedAt: { type: 'string' }
+          }
+        },
         UnauthorizedError: {
           type: 'object',
           properties: {
@@ -228,6 +299,14 @@ export const swaggerRoutesDocumentation: FastifyDynamicSwaggerOptions = {
                 'Unauthorized: user not allowed'
               ]
             }
+          }
+        },
+        NotFoundError: {
+          type: 'object',
+          properties: {
+            statusCode: { type: 'number', enum: [404] },
+            error: { type: 'string', enum: ['Not Found'] },
+            message: { type: 'string' }
           }
         },
         ServerError: {
@@ -257,13 +336,15 @@ export const swaggerRoutesDocumentation: FastifyDynamicSwaggerOptions = {
       ...userPathsDocs,
       ...coursePathsDocs,
       ...schoolSaturdayPathsDocs,
-      ...loginPathsDocs
+      ...loginPathsDocs,
+      ...semestersDocs
     },
     tags: [
       { name: 'Usuário' },
       { name: 'Curso' },
       { name: 'Sábado Letivo' },
-      { name: 'Login' }
+      { name: 'Login' },
+      { name: 'Semestre' }
     ]
   }
 };
