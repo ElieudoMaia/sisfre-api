@@ -1,4 +1,5 @@
 import { InvalidResourceError } from '@/domain/@shared/error/invalid-resource.error';
+import { NotFoundError } from '@/domain/@shared/error/not-found.error';
 import { Semester } from '@/domain/semester/entity/semester';
 import { FindSemesterByIdRepository } from '@/domain/semester/repository/find-semester-by-id';
 import { FindSemesterByYearRepository } from '@/domain/semester/repository/find-semester-by-year';
@@ -21,7 +22,7 @@ export class UpdateSemesterUseCase {
       input.id
     );
     if (!savedSemester) {
-      throw new InvalidResourceError('Semester not found');
+      throw new NotFoundError('Semester not found');
     }
 
     const updatedSemester = new Semester({
