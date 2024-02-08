@@ -114,6 +114,8 @@ describe('Course Entity', () => {
     expect(course.name).toBe(fakeCourseProps.name);
     expect(course.acronym).toBe(fakeCourseProps.acronym);
     expect(course.coordinatorId).toBe(fakeCourseProps.coordinatorId);
+    expect(course.coordinator).toBe(fakeCourseProps.coordinator);
+    expect(course.coordinator?.id).toBe(fakeCourseProps.coordinator?.id);
     expect(course.duration).toBe(fakeCourseProps.duration);
     expect(course.type).toBe(fakeCourseProps.type);
     expect(course.createdAt).toBe(fakeCourseProps.createdAt);
