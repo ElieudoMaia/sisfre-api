@@ -1,3 +1,4 @@
+import { Class, ClassShift } from '@/domain/class/entity/class';
 import { Course, CourseType } from '@/domain/course/entity/course';
 import {
   DayOffSchool,
@@ -84,5 +85,19 @@ export const makeFakeSemester = ({ id = fake.uuid() } = {}) => {
     type: 'REGULAR',
     createdAt: new Date('2024-01-01'),
     updatedAt: new Date('2024-01-01')
+  });
+};
+
+export const makeFakeClass = ({
+  id = fake.uuid(),
+  courseId = fake.uuid(),
+  semesterId = fake.uuid()
+} = {}) => {
+  return new Class({
+    id,
+    course: makeFakeCourse({ id: courseId }),
+    coursePeriod: 1,
+    shift: ClassShift.MORNING,
+    semester: makeFakeSemester({ id: semesterId })
   });
 };
