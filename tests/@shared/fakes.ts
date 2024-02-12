@@ -32,14 +32,15 @@ export const makeFakeUser = ({
 export const makeFakeCourse = ({
   id = fake.uuid(),
   type = 'GRADUATION' as CourseType,
-  coordinatorId = fake.uuid()
+  coordinatorId = fake.uuid(),
+  duration = 8
 } = {}) => {
   return new Course({
     id,
     name: fake.name(),
     type,
     acronym: 'ABCD',
-    duration: 8,
+    duration,
     coordinatorId,
     createdAt: new Date(),
     updatedAt: new Date()
