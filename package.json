@@ -8,7 +8,7 @@
   "private": true,
   "scripts": {
     "start": "tsx watch src/main/server.ts",
-    "build": "esbuild ./src/main/server.ts --bundle --platform=node --packages=external --target=node18.19.0 --outdir=dist --sourcemap --minify",
+    "build": "esbuild ./src/main/server.ts --bundle --platform=node --packages=external --target=node18.19.0 --outfile=dist/app.js --sourcemap --minify",
     "test": "vitest --config vitest.config.ts",
     "test:staged": "vitest --config vitest.config.ts --no-watch",
     "test:coverage": "vitest run --coverage",
