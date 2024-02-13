@@ -47,6 +47,7 @@ export class UpdateClassUseCase {
     }
 
     const schoolClass = new Class({
+      id: input.id,
       shift: input.shift as ClassShift,
       coursePeriod: input.coursePeriod,
       semester,

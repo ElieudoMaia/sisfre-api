@@ -191,6 +191,7 @@ describe('UpdateClassUseCase', () => {
     expect(updateClassRepositorySpy.update).toHaveBeenCalledTimes(1);
     expect(updateClassRepositorySpy.update).toHaveBeenCalledWith(
       expect.objectContaining({
+        id: input.id,
         shift: input.shift,
         coursePeriod: input.coursePeriod,
         semester: expect.any(Semester),
