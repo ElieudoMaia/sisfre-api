@@ -60,19 +60,15 @@ describe('Semester Entity', () => {
       new Semester(fakeSemesterProps);
     }).toThrow('semester is required');
     expect(() => {
-      fakeSemesterProps.semester = 0 as SemesterOfYear;
+      fakeSemesterProps.semester = '' as SemesterOfYear;
       new Semester(fakeSemesterProps);
-    }).toThrow('semester must be 1 or 2');
+    }).toThrow('semester must be FIRST or SECOND');
     expect(() => {
-      fakeSemesterProps.semester = 3 as SemesterOfYear;
+      fakeSemesterProps.semester = 'any' as SemesterOfYear;
       new Semester(fakeSemesterProps);
-    }).toThrow('semester must be 1 or 2');
+    }).toThrow('semester must be FIRST or SECOND');
     expect(() => {
-      fakeSemesterProps.semester = 1.5 as SemesterOfYear;
-      new Semester(fakeSemesterProps);
-    }).toThrow('semester must be an integer');
-    expect(() => {
-      fakeSemesterProps.semester = 1 as SemesterOfYear;
+      fakeSemesterProps.semester = 'FIRST' as SemesterOfYear;
       new Semester(fakeSemesterProps);
     }).not.toThrow();
   });
