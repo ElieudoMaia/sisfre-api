@@ -1,4 +1,5 @@
 import { FastifyDynamicSwaggerOptions } from '@fastify/swagger';
+import classPathsDocs from './paths/class-paths.docs';
 import coursePathsDocs from './paths/course-paths.docs';
 import dayOffSchoolPathsDocs from './paths/day-off-school-paths.docs';
 import loginPathsDocs from './paths/login-paths.docs';
@@ -230,6 +231,24 @@ export const swaggerRoutesDocumentation: FastifyDynamicSwaggerOptions = {
               }
             }
           }
+        },
+        CreateClass: {
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                properties: {
+                  shift: {
+                    type: 'string',
+                    enum: ['MORNING', 'AFTERNOON', 'NIGTH']
+                  },
+                  courseId: { type: 'string' },
+                  semesterId: { type: 'string' },
+                  coursePeriod: { type: 'number' }
+                }
+              }
+            }
+          }
         }
       },
       responses: {
@@ -340,6 +359,50 @@ export const swaggerRoutesDocumentation: FastifyDynamicSwaggerOptions = {
             updatedAt: { type: 'string' }
           }
         },
+        Class: {
+          type: 'object',
+          properties: {
+            id: { type: 'string' },
+            shift: {
+              type: 'string',
+              enum: ['MORNING', 'AFTERNOON', 'NIGTH']
+            },
+            courseId: { type: 'string' },
+            semesterId: { type: 'string' },
+            coursePeriod: { type: 'number' },
+            createdAt: { type: 'string' },
+            updatedAt: { type: 'string' }
+          }
+        },
+        ClassWithCourseAndSemester: {
+          type: 'object',
+          properties: {
+            id: { type: 'string' },
+            shift: {
+              type: 'string',
+              enum: ['MORNING', 'AFTERNOON', 'NIGTH']
+            },
+            coursePeriod: { type: 'number' },
+            course: {
+              type: 'object',
+              properties: {
+                id: { type: 'string' },
+                name: { type: 'string' },
+                duration: { type: 'number' }
+              }
+            },
+            semester: {
+              type: 'object',
+              properties: {
+                id: { type: 'string' },
+                year: { type: 'number' },
+                semester: { type: 'number' }
+              }
+            },
+            createdAt: { type: 'string' },
+            updatedAt: { type: 'string' }
+          }
+        },
         UnauthorizedError: {
           type: 'object',
           properties: {
@@ -351,6 +414,14 @@ export const swaggerRoutesDocumentation: FastifyDynamicSwaggerOptions = {
                 'Unauthorized: user not allowed'
               ]
             }
+          }
+        },
+        BadRequestError: {
+          type: 'object',
+          properties: {
+            statusCode: { type: 'number', enum: [400] },
+            error: { type: 'string', enum: ['Bad Request'] },
+            message: { type: 'string' }
           }
         },
         NotFoundError: {
@@ -390,7 +461,8 @@ export const swaggerRoutesDocumentation: FastifyDynamicSwaggerOptions = {
       ...schoolSaturdayPathsDocs,
       ...loginPathsDocs,
       ...semestersDocs,
-      ...dayOffSchoolPathsDocs
+      ...dayOffSchoolPathsDocs,
+      ...classPathsDocs
     },
     tags: [
       { name: 'Usuário' },
@@ -398,7 +470,8 @@ export const swaggerRoutesDocumentation: FastifyDynamicSwaggerOptions = {
       { name: 'Sábado Letivo' },
       { name: 'Login' },
       { name: 'Semestre' },
-      { name: 'Dia Não Letivo' }
+      { name: 'Dia Não Letivo' },
+      { name: 'Turma' }
     ]
   }
 };
