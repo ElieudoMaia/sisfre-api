@@ -139,7 +139,7 @@ export const swaggerRoutesDocumentation: FastifyDynamicSwaggerOptions = {
                 type: 'object',
                 properties: {
                   year: { type: 'number' },
-                  semester: { type: 'number' },
+                  semester: { type: 'string', enum: ['FIRST', 'SECOND'] },
                   startFirstStage: { type: 'string' },
                   endFirstStage: { type: 'string' },
                   startSecondStage: { type: 'string' },
@@ -160,7 +160,7 @@ export const swaggerRoutesDocumentation: FastifyDynamicSwaggerOptions = {
                 type: 'object',
                 properties: {
                   year: { type: 'number' },
-                  semester: { type: 'number' },
+                  semester: { type: 'string', enum: ['FIRST', 'SECOND'] },
                   startFirstStage: { type: 'string' },
                   endFirstStage: { type: 'string' },
                   startSecondStage: { type: 'string' },
@@ -331,7 +331,7 @@ export const swaggerRoutesDocumentation: FastifyDynamicSwaggerOptions = {
           properties: {
             id: { type: 'string' },
             year: { type: 'number' },
-            semester: { type: 'number' },
+            semester: { type: 'string', enum: ['FIRST', 'SECOND'] },
             type: {
               type: 'string',
               enum: ['REGULAR', 'CONVENTIONAL']

@@ -43,7 +43,7 @@ export default {
                         year: { type: 'number' },
                         semester: {
                           type: 'string',
-                          enum: [1, 2]
+                          enum: ['FIRST', 'SECOND']
                         },
                         type: {
                           type: 'string',
