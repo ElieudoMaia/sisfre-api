@@ -8,7 +8,7 @@ import {
   DayOfWeek,
   SchoolSaturday
 } from '@/domain/school-saturday/entity/school-saturday';
-import { Semester } from '@/domain/semester/entity/semester';
+import { Semester, SemesterOfYear } from '@/domain/semester/entity/semester';
 import { User, UserRole } from '@/domain/user/entity/user';
 import { fake } from '../utils/fake-data-generator';
 
@@ -77,7 +77,7 @@ export const makeFakeSemester = ({ id = fake.uuid() } = {}) => {
   return new Semester({
     id,
     year: new Date().getFullYear(),
-    semester: 1,
+    semester: SemesterOfYear.FIRST,
     startFirstStage: new Date(),
     endFirstStage: new Date(),
     startSecondStage: new Date(),

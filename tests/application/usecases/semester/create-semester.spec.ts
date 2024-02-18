@@ -41,7 +41,7 @@ const makeSut = (): SutTypes => {
 
 const makeFakeInputDTO = (): CreateSemesterUseCaseInputDTO => ({
   year: new Date().getFullYear(),
-  semester: 1,
+  semester: SemesterOfYear.FIRST,
   startFirstStage: new Date(),
   endFirstStage: new Date(),
   startSecondStage: new Date(),
@@ -139,7 +139,7 @@ describe('CreateSemesterUseCase', () => {
     ).mockResolvedValueOnce([
       new Semester({
         year: fakeInputDTO.year,
-        semester: 2,
+        semester: SemesterOfYear.SECOND,
         type: fakeInputDTO.type,
         startFirstStage: new Date(),
         endFirstStage: new Date(),

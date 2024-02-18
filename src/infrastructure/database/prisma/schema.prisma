@@ -53,7 +53,7 @@ model SchoolSaturday {
 model Semester {
   id                 String   @id @default(uuid()) @db.Uuid
   year               Int      @db.Integer
-  semester           Int      @db.Integer
+  semester           String   @db.VarChar(10)
   start_first_stage  DateTime @db.Date
   end_first_stage    DateTime @db.Date
   start_second_stage DateTime @db.Date

@@ -55,7 +55,7 @@ const makeSut = (): SutTypes => {
 const makeFakeInputDTO = (): UpdateSemesterUseCaseInputDTO => ({
   id: semesterId,
   year: new Date().getFullYear(),
-  semester: 1,
+  semester: SemesterOfYear.FIRST,
   startFirstStage: new Date(),
   endFirstStage: new Date(),
   startSecondStage: new Date(),
@@ -108,7 +108,7 @@ describe('UpdateSemesterUseCase', () => {
     await expect(sut.execute(fakeInputDTO)).rejects.toThrow();
 
     fakeInputDTO = makeFakeInputDTO();
-    fakeInputDTO.semester = 0 as SemesterOfYear;
+    fakeInputDTO.semester = '' as SemesterOfYear;
     await expect(sut.execute(fakeInputDTO)).rejects.toThrow();
 
     fakeInputDTO = makeFakeInputDTO();
@@ -188,7 +188,7 @@ describe('UpdateSemesterUseCase', () => {
     ).mockResolvedValueOnce([
       new Semester({
         year: fakeInputDTO.year,
-        semester: 2,
+        semester: SemesterOfYear.SECOND,
         type: fakeInputDTO.type,
         startFirstStage: new Date(),
         endFirstStage: new Date(),

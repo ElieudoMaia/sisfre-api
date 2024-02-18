@@ -2,7 +2,10 @@ import { Entity } from '@/domain/@shared/entity/entity.abstract';
 import { SemesterValidatorFactory } from '../factories/semester.validator.factory';
 
 export type SemesterType = 'REGULAR' | 'CONVENTIONAL';
-export type SemesterOfYear = 1 | 2;
+export enum SemesterOfYear {
+  FIRST = 'FIRST',
+  SECOND = 'SECOND'
+}
 
 export type SemesterEntityProps = {
   id?: string;

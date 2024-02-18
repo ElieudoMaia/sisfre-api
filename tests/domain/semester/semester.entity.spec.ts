@@ -18,7 +18,7 @@ const makeFakeSemesterProps = ({
 } = {}): SemesterEntityProps => ({
   id,
   year: new Date().getFullYear(),
-  semester: 1,
+  semester: SemesterOfYear.FIRST,
   startFirstStage: new Date(),
   endFirstStage: new Date(),
   startSecondStage: new Date(),

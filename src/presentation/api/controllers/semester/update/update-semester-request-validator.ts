@@ -24,11 +24,10 @@ export class UpdateSemesterRequestValidator {
         .min(new Date().getFullYear(), 'year must not be a past year')
         .required('year is required'),
       semester: yup
-        .number()
-        .typeError('semester must be a number')
-        .integer('semester must be an integer')
-        .min(1, 'semester must be 1 or 2')
-        .max(2, 'semester must be 1 or 2')
+        .string()
+        .typeError('semester must be a string')
+        .trim()
+        .oneOf(['FIRST', 'SECOND'], 'semester must be FIRST or SECOND')
         .required('semester is required'),
       startFirstStage: yup
         .date()
