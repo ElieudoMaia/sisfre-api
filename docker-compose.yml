@@ -2,7 +2,7 @@ version: '3'
 
 services:
   sisfre_api:
-    image: node:18.18.2
+    image: node:20.11.1
     user: 'node'
     container_name: sisfre_api
     depends_on:
