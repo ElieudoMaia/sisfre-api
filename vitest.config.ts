@@ -1,9 +1,7 @@
+import tsconfigPaths from 'vite-tsconfig-paths';
+
 export default {
-  resolve: {
-    alias: {
-      '@': './src'
-    }
-  },
+  plugins: [tsconfigPaths()],
   test: {
     exclude: ['.docker', 'dist', 'node_modules'],
     coverage: {

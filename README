@@ -1,20 +1,50 @@
-[x] Add faker to project
-[x] Evaluate need to use try catch on usecase
-[x] Learn about prisma
-[x] tests for JWTAdapter
-[ ] see how to validate input
-[ ] handle correctly erro messages on controller
-[ ] add log lib
-[ ] pattern the messages returned by the controller
-[ ] see the possibility of create a adpter or decorator to controllers factories
-[ ] setup prisma connection on application startup
-[x] Put prisma on project
-[x] Create setup with docker
-[x] Create repositories needed to login usecase
-[ ] Learn about fastify
-[ ] get jwt token secret from env
-[ ] Put fastify on project
-[ ] Create adapter to fastify
-[ ] Create route to login usecase
+[x] Planejar próximos passos
+[x] Documentação das rotas de turma (15/02/2024)
+[x] Setup prisma connection on application startup (15/02/2024)
+[x] CRUD de semestre: mudar atributo semestre de 1 e 2 para FIRST e SECOND (17/02/2024)
+
+CRUD de Disciplina:
+Desenhar como está o modelo de classes e as composições
+Ver implementações do módulo de DDD do curso
+
+Criar (nome, sigla) (curso, período, quantidade de aulas no período)[]
+Atualizar (mesmos dados da criação)
+Buscar (nome, curso/semestre (periodo))
+Buscar pelo ID
+Deletar
+
+[ ] CRUD de disciplina (23/02/2024)
+[ ] Faltando rota de deletar semestre (24/02/2024)
+[ ] Adicionar filtros na busca de turmas (24/02/2024)
+[ ] Planejar próximos passos (24/02/2024)
+
+[ ] Cadrastro de falta
+[ ] CRUD de solicitação de anteposição
+[ ] CRUD de solicitação de reposição
+[ ] Quando for criar/atualizar um sábado letivo, checar se não é feriado
+[ ] Confirmação/Rejeição de reposição
+[ ] Confirmação/Rejeição de anteposição
+[ ] Confirmação/Rejeição de falta
+[ ] validar acesso a recursos de acordo com a role do usuário
+[ ] adicionar verificação de email
+[ ] fazer reset de senha
 [ ] Prepare integration tests setup
-[ ] Create swagger documentation to login route
+[ ] tornar coordenador obrigatório ao criar entidade curso
+[ ] rever regras de criação e atualização de turmas
+[ ] ver regras para a deleção de turma
+[ ] ver regras para a criação de semestres
+[ ] Add log lib
+[ ] preparar setup de testes e2e
+
+Dúvidas
+1 - Ao criar usuário tem 3 roles, mas ao listar tem 4, uma a mais (COORDENADOR)
+2 - QUANTIDADE DE AULAS POR PERIODO: Deve ser feito dessa mesma forma? Esse dado, é de aulas por dia? por semana? Vi que o máximo é 7.
+3 - É possível ter uma disciplina em vários semestre do mesmo curso?
+4 - Estou utilizando o postgres, posso continuar com ele mesmo?
+5 - Onde fica a parte do cadastro de reposições e anteposições?
+6 - Deve permitir sábados letivos e feriados para dia atual e datas anteriores?
+7 - No sábado letivo, seria bom ter a data ao qual o sábado se refere? Além do dia da semana ou ao invés do dia da semana.
+8 - A parte de "feriados" continuar com essa nomenclatura? Já que envolve feriado, recesso e férias.
+9 - Muda estrutura do banco para português?
+10 - Posso ter mais de um feriado para o mesmo dia? (como está é permitido)
+11 -

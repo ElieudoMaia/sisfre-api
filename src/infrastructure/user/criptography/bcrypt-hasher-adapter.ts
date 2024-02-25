@@ -1,6 +1,6 @@
 import { HashComparer } from '@/domain/user/gateway/hash-comparer';
 import { Hasher } from '@/domain/user/gateway/hasher';
-import bcrypt from 'bcrypt';
+const bcrypt = await import('bcrypt');
 
 export class BcryptHasherAdapter implements Hasher, HashComparer {
   constructor(private readonly salt: number) {}
