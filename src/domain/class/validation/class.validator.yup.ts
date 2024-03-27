@@ -21,7 +21,7 @@ export class ClassYupValidator implements ValidatorInterface<Class> {
           .test(
             'semester',
             'semester must be instance of Semester',
-            (value) => {
+            (value: Semester) => {
               return value instanceof Semester;
             }
           )
